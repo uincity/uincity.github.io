@@ -403,14 +403,34 @@
             justify-content: center;
             -webkit-box-align: center;
             align-items: center;
-            padding: 5px 7px;
+            padding: 8px 10px;
             transition: var(--transition);
+            border-radius: 4px;
+            background: rgba(100, 255, 218, 0.1);
+            border: 1px solid transparent;
+            position: relative;
+        }
+
+        .project-top .project-links a::before {
+            content: "🔗";
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            font-size: 10px;
+            opacity: 0.7;
         }
 
         .project-top .project-links a:hover,
         .project-top .project-links a:focus {
             transform: translateY(-3px);
             color: var(--green);
+            background: rgba(100, 255, 218, 0.2);
+            border-color: var(--green);
+        }
+
+        .project-top .project-links a:hover::before,
+        .project-top .project-links a:focus::before {
+            opacity: 1;
         }
 
         .project-title {

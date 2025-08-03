@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그릭요거트 완벽 가이드: 데이터 인포그래픽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .energetic-red { color: #FF6B6B; }
+        .energetic-yellow { color: #FFD166; }
+        .energetic-green { color: #06D6A0; }
+        .energetic-blue { color: #118AB2; }
+        .energetic-dark { color: #073B4C; }
+        .bg-energetic-red { background-color: #FF6B6B; }
+        .bg-energetic-yellow { background-color: #FFD166; }
+        .bg-energetic-green { background-color: #06D6A0; }
+        .bg-energetic-blue { background-color: #118AB2; }
+        .bg-energetic-dark { background-color: #073B4C; }
+        .border-energetic-red { border-color: #FF6B6B; }
+        .border-energetic-yellow { border-color: #FFD166; }
+        .border-energetic-green { border-color: #06D6A0; }
+        .border-energetic-blue { border-color: #118AB2; }
+        .border-energetic-dark { border-color: #073B4C; }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        h1, h2, h3 {
+            color: #073B4C;
+            font-weight: 900;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            line-height: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            color: #4a5568;
+            text-align: center;
+            max-width: 3xl;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 3rem;
+        }
+    </style>
+</head>
+<body class="energetic-dark">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 energetic-dark">그릭요거트 완벽 가이드</h1>
+            <p class="text-xl md:text-2xl text-gray-600">데이터로 만나는 건강한 선택</p>
+        </header>
+
+        <main>
+            <section id="difference" class="my-16">
+                <h2 class="section-title">무엇이 그릭요거트를 특별하게 만들까?</h2>
+                <p class="section-subtitle">일반 요거트와 그릭요거트의 결정적 차이는 바로 '스트레이닝(Straining)' 공정입니다. 이 과정을 통해 유청을 제거하여 영양 성분을 농축하고 특유의 꾸덕한 질감을 만들어냅니다.</p>
+                
+                <div class="card md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4 text-center">제조 공정의 차이: 한눈에 보기</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4 text-center">
+                        <div class="flex items-center">
+                            <div class="p-4 bg-energetic-blue text-white rounded-lg shadow-lg">우유 + 유산균</div>
+                            <div class="text-4xl mx-4 energetic-dark font-bold">→</div>
+                            <div class="p-4 bg-energetic-green text-white rounded-lg shadow-lg">발효</div>
+                        </div>
+                        <div class="text-4xl mx-4 energetic-dark font-bold">→</div>
+                        <div class="flex flex-col items-center">
+                            <div class="p-4 bg-energetic-yellow text-energetic-dark rounded-lg shadow-lg mb-2">일반 요거트</div>
+                            <div class="text-4xl my-2 energetic-dark font-bold">↓</div>
+                            <div class="p-4 border-2 border-dashed border-energetic-red rounded-lg shadow-lg">스트레이닝 (유청 분리)</div>
+                            <div class="text-4xl my-2 energetic-dark font-bold">↓</div>
+                            <div class="p-4 bg-energetic-red text-white rounded-lg shadow-lg">그릭요거트</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                    <div class="card">
+                        <h3 class="text-2xl font-bold mb-4">영양소의 농축 효과</h3>
+                        <p class="text-gray-600 mb-4">스트레이닝 과정은 단순히 질감만 바꾸는 것이 아닙니다. 단백질과 칼슘 등 유익한 영양소를 농축시켜 일반 요거트보다 월등히 높은 영양 밀도를 자랑하게 됩니다.</p>
+                        <ul class="space-y-3 text-lg">
+                            <li class="flex items-center"><span class="energetic-green text-2xl mr-3">✔</span> <strong>단백질:</strong> 최대 3배 높아 포만감과 근육 생성에 도움</li>
+                            <li class="flex items-center"><span class="energetic-green text-2xl mr-3">✔</span> <strong>칼슘:</strong> 뼈 건강과 골다공증 예방에 효과적</li>
+                            <li class="flex items-center"><span class="energetic-green text-2xl mr-3">✔</span> <strong>프로바이오틱스:</strong> 장내 환경 개선에 기여</li>
+                            <li class="flex items-center"><span class="energetic-green text-2xl mr-3">✔</span> <strong>낮은 유당:</strong> 유당불내증이 있어도 부담 감소</li>
+                        </ul>
+                    </div>
+                    <div class="card border-2 border-energetic-red">
+                        <h3 class="text-2xl font-bold mb-4 energetic-red">농축의 이면: 주의할 점</h3>
+                        <p class="text-gray-600 mb-4">유익한 성분이 농축되는 만큼, 전유로 만든 제품의 경우 포화지방과 콜레스테롤 함량도 함께 높아질 수 있습니다. 제품 구매 시 영양성분표를 꼼꼼히 확인하는 지혜가 필요합니다.</p>
+                        <ul class="space-y-3 text-lg">
+                            <li class="flex items-center"><span class="energetic-red text-2xl mr-3">⚠</span> <strong>포화지방 & 콜레스테롤:</strong> 전유 제품은 함량이 높을 수 있어 심혈관 건강에 유의</li>
+                            <li class="flex items-center"><span class="energetic-red text-2xl mr-3">⚠</span> <strong>카제인 단백질:</strong> 일부 민감한 사람에게 염증 반응을 유발할 수 있다는 소수 의견 존재</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dairy-vs-soy" class="my-16">
+                <h2 class="section-title">우유 vs 두유: 당신의 선택은?</h2>
+                <p class="section-subtitle">최근 각광받는 식물성 대안인 두유 그릭요거트는 전통적인 우유 그릭요거트와 어떤 차이가 있을까요? 영양 성분을 중심으로 두 요거트를 정면 비교해봅니다.</p>
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-4 text-center">우유 vs 두유 그릭요거트 영양 성분 비교 (100g 기준)</h3>
+                    <div class="chart-container h-96 md:h-[500px]">
+                        <canvas id="dairyVsSoyChart"></canvas>
+                    </div>
+                    <p class="text-center text-gray-600 mt-4">두유 그릭요거트는 콜레스테롤이 없고 포화지방이 압도적으로 낮아 심혈관 건강에 유리한 선택이 될 수 있습니다. 단백질 함량은 두 제품 모두 높게 나타납니다.</p>
+                </div>
+            </section>
+
+            <section id="market-guide" class="my-16">
+                <h2 class="section-title">마트 탐방: 시판 그릭요거트 비교 분석</h2>
+                <p class="section-subtitle">다양한 브랜드 속에서 어떤 제품을 골라야 할까요? 주요 시판 그릭요거트의 특징을 질감, 맛, 영양성분으로 비교하여 현명한 선택을 돕습니다.</p>
+                 <div class="card">
+                    <h3 class="text-2xl font-bold mb-4 text-center">주요 브랜드 단백질 함량 비교 (100g 기준)</h3>
+                    <div class="chart-container h-96 md:h-[500px]">
+                        <canvas id="brandProteinChart"></canvas>
+                    </div>
+                     <p class="text-center text-gray-600 mt-4">제품별로 단백질 함량 차이가 있으므로, 높은 단백질 섭취가 목적이라면 라벨을 확인하는 것이 중요합니다.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                    <div class="card">
+                        <h3 class="text-xl font-bold energetic-blue">그릭데이 시그니처</h3>
+                        <p class="mt-2 text-gray-600"><strong>질감:</strong> 매우 단단하고 꾸덕함 (크림치즈 유사)</p>
+                        <p class="mt-1 text-gray-600"><strong>특징:</strong> 꾸덕한 질감의 표준. 담백하고 고소한 맛.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-xl font-bold energetic-blue">룩트 띠크</h3>
+                        <p class="mt-2 text-gray-600"><strong>질감:</strong> 매우 꾸덕하면서도 크리미함</p>
+                        <p class="mt-1 text-gray-600"><strong>특징:</strong> 진한 우유향과 강한 산미로 호불호가 갈릴 수 있음.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-xl font-bold energetic-blue">요즘 그릭요거트</h3>
+                        <p class="mt-2 text-gray-600"><strong>질감:</strong> 매우 꾸덕함. 단단함의 끝판왕.</p>
+                        <p class="mt-1 text-gray-600"><strong>특징:</strong> 고소함보다는 산뜻하고 약간의 신맛.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-xl font-bold energetic-blue">매일바이오 그릭</h3>
+                        <p class="mt-2 text-gray-600"><strong>질감:</strong> 부드러운 편</p>
+                        <p class="mt-1 text-gray-600"><strong>특징:</strong> 칼로리가 낮고 부드러워 부담 없이 즐기기 좋음.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-xl font-bold energetic-blue">요플레 그릭 마일드</h3>
+                        <p class="mt-2 text-gray-600"><strong>질감:</strong> 부드럽고 깔끔함</p>
+                        <p class="mt-1 text-gray-600"><strong>특징:</strong> 지방이 적어 끝맛이 깔끔. 다이어터에게 적합.</p>
+                    </div>
+                     <div class="card border-2 border-energetic-green">
+                        <h3 class="text-xl font-bold energetic-green">라벨 읽는 법 💡</h3>
+                        <ul class="mt-2 space-y-2 text-gray-700">
+                           <li><strong>당류:</strong> '무가당' 제품 선택, 100g당 10g 미만 권장.</li>
+                           <li><strong>단백질:</strong> 100g당 10g 이상이면 고단백.</li>
+                           <li><strong>지방:</strong> 총 지방 및 포화지방 함량 확인.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="homemade" class="my-16">
+                <h2 class="section-title">장인의 주방: 홈메이드 그릭요거트</h2>
+                <p class="section-subtitle">집에서 직접 만들면 내 입맛과 건강 목표에 꼭 맞는 '맞춤형' 그릭요거트를 즐길 수 있습니다. 우유와 두유, 두 가지 레시피를 소개합니다.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card">
+                        <h3 class="text-2xl font-bold mb-6 text-center">🥛 우유 그릭요거트 만들기</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 bg-energetic-blue text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold">혼합</h4>
+                                    <p class="text-gray-600">우유 1L와 시판 농후발효유 1병을 섞어주세요.</p>
+                                </div>
+                            </div>
+                            <div class="h-12 w-px bg-gray-300 ml-5"></div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 bg-energetic-blue text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold">발효</h4>
+                                    <p class="text-gray-600">전기밥솥 보온 기능으로 1시간 가열 후, 8~9시간 그대로 두세요.</p>
+                                </div>
+                            </div>
+                             <div class="h-12 w-px bg-gray-300 ml-5"></div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 bg-energetic-blue text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold">스트레이닝</h4>
+                                    <p class="text-gray-600">면포에 부어 냉장고에서 8시간 이상 유청을 걸러내면 꾸덕한 그릭요거트 완성!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-2xl font-bold mb-6 text-center">🌱 두유 그릭요거트 만들기</h3>
+                         <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 bg-energetic-green text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold">혼합</h4>
+                                    <p class="text-gray-600">무가당 두유 1L와 비건 유산균을 섞어주세요.</p>
+                                </div>
+                            </div>
+                            <div class="h-12 w-px bg-gray-300 ml-5"></div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 bg-energetic-green text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold">발효</h4>
+                                    <p class="text-gray-600">따뜻한 곳에서 8~10시간 발효시켜 주세요.</p>
+                                </div>
+                            </div>
+                             <div class="h-12 w-px bg-gray-300 ml-5"></div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 bg-energetic-green text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold">스트레이닝</h4>
+                                    <p class="text-gray-600">두유는 유청이 빨리 빠져요. 3시간 정도 거른 후, 압력을 가해 원하는 질감을 만드세요.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="toppings" class="my-16">
+                <h2 class="section-title">완벽한 한 그릇: 아침 식사 조합법</h2>
+                <p class="section-subtitle">그릭요거트를 더욱 건강하고 맛있게 즐기는 방법! 영양 균형을 맞춘 최고의 토핑 조합을 소개합니다.</p>
+                <div class="card">
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="text-5xl mb-2">🍓</div>
+                            <h4 class="font-bold text-lg energetic-red">저당 과일</h4>
+                            <p class="text-gray-600 text-sm">블루베리, 딸기 (항산화, 비타민)</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="text-5xl mb-2">🥜</div>
+                            <h4 class="font-bold text-lg energetic-yellow">견과류 & 씨앗</h4>
+                            <p class="text-gray-600 text-sm">아몬드, 호두 (건강한 지방, 단백질)</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="text-5xl mb-2">🥑</div>
+                            <h4 class="font-bold text-lg energetic-green">건강한 지방</h4>
+                            <p class="text-gray-600 text-sm">아보카도, 올리브 오일 (포만감 증진)</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="text-5xl mb-2">🌾</div>
+                            <h4 class="font-bold text-lg energetic-blue">섬유질 & 식감</h4>
+                            <p class="text-gray-600 text-sm">오트밀, 저당 그래놀라 (복합 탄수화물)</p>
+                        </div>
+                        <div class="flex flex-col items-center col-span-2 lg:col-span-1">
+                             <div class="text-5xl mb-2">🍯</div>
+                            <h4 class="font-bold text-lg energetic-dark">천연 감미료</h4>
+                            <p class="text-gray-600 text-sm">꿀, 메이플 시럽 (소량만 사용!)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="precautions" class="my-16">
+                <h2 class="section-title">현명한 섭취: 최종 체크리스트</h2>
+                <p class="section-subtitle">그릭요거트의 효과를 극대화하고 잠재적인 함정을 피하기 위한 마지막 조언입니다. 건강한 습관을 위해 꼭 기억하세요.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <div class="card">
+                        <h3 class="text-2xl font-bold mb-4">섭취 Do's & Don'ts</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start"><span class="energetic-green text-2xl mr-3 mt-1">👍</span><div><strong>식후 섭취:</strong> 위산이 중화된 식후에 먹어야 유산균 생존율이 높아져요.</div></li>
+                            <li class="flex items-start"><span class="energetic-green text-2xl mr-3 mt-1">👍</span><div><strong>적정량 섭취:</strong> 영양 밀도가 높으므로 한 번에 100-150g이 적당해요.</div></li>
+                            <li class="flex items-start"><span class="energetic-green text-2xl mr-3 mt-1">👍</span><div><strong>무가당 선택:</strong> 항상 플레인, 무가당 제품을 고르고 건강한 토핑을 곁들이세요.</div></li>
+                             <li class="flex items-start"><span class="energetic-red text-2xl mr-3 mt-1">👎</span><div><strong>공복 섭취 주의:</strong> 빈 속에 먹으면 강한 위산에 유산균이 죽을 수 있어요.</div></li>
+                            <li class="flex items-start"><span class="energetic-red text-2xl mr-3 mt-1">👎</span><div><strong>취침 직전 섭취:</strong> 소화기관에 부담을 주어 숙면을 방해할 수 있어요.</div></li>
+                        </ul>
+                    </div>
+                    <div class="card border-4 border-energetic-yellow">
+                        <h3 class="text-2xl font-bold mb-4">가장 중요한 구분: 알레르기 vs 유당불내증</h3>
+                        <p class="text-gray-600 mb-4">두 가지는 완전히 다른 문제입니다. 혼동하면 위험할 수 있으니 꼭 구분해야 합니다.</p>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-lg energetic-blue">유당불내증 (소화 문제)</h4>
+                                <p class="text-gray-700">유당 분해 효소가 부족한 상태입니다. 유당이 적은 우유 그릭요거트는 괜찮을 수 있습니다.</p>
+                            </div>
+                            <hr class="my-4">
+                            <div>
+                                <h4 class="font-bold text-lg energetic-red">우유 알레르기 (면역 문제)</h4>
+                                <p class="text-gray-700">우유 단백질에 대한 면역계의 과민 반응입니다. <strong>모든 유제품을 피해야 하며,</strong> 두유 그릭요거트가 유일한 대안입니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-16 py-8 border-t border-gray-200">
+            <p class="text-gray-500">이 인포그래픽은 제공된 자료를 바탕으로 제작되었습니다.</p>
+            <p class="text-sm text-gray-400 mt-2">최종 업데이트: 2025년 8월 3일</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const energeticPalette = {
+            red: '#FF6B6B',
+            yellow: '#FFD166',
+            green: '#06D6A0',
+            blue: '#118AB2',
+            dark: '#073B4C'
+        };
+
+        function wrapLabel(str, maxWidth) {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines.filter(line => line.length > 0);
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                           family: "'Noto Sans KR', sans-serif",
+                           size: 14,
+                        },
+                        color: energeticPalette.dark
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    bodyFont: {
+                        family: "'Noto Sans KR', sans-serif",
+                    },
+                    titleFont: {
+                        family: "'Noto Sans KR', sans-serif",
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: energeticPalette.dark,
+                        font: {
+                           family: "'Noto Sans KR', sans-serif",
+                        }
+                    },
+                    grid: {
+                        color: '#e2e8f0'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: energeticPalette.dark,
+                         font: {
+                           family: "'Noto Sans KR', sans-serif",
+                        }
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        const dairyVsSoyData = {
+            labels: ['단백질 (g)', ['포화지방 (g)', '(5배 스케일)'], '콜레스테롤 (mg)'],
+            datasets: [
+                {
+                    label: '일반 우유 그릭요거트',
+                    data: [9.5, 4 * 5, 31],
+                    backgroundColor: energeticPalette.blue,
+                    borderColor: energeticPalette.blue,
+                    borderWidth: 1
+                },
+                {
+                    label: '두유 그릭요거트',
+                    data: [13, 0.5 * 5, 0],
+                    backgroundColor: energeticPalette.green,
+                    borderColor: energeticPalette.green,
+                    borderWidth: 1
+                }
+            ]
+        };
+
+        new Chart(document.getElementById('dairyVsSoyChart'), {
+            type: 'bar',
+            data: dairyVsSoyData,
+            options: {
+                ...defaultChartOptions,
+                plugins: {
+                    ...defaultChartOptions.plugins,
+                    tooltip: {
+                         ...defaultChartOptions.plugins.tooltip,
+                        callbacks: {
+                            ...defaultChartOptions.plugins.tooltip.callbacks,
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                let value = context.parsed.y;
+                                if (context.dataIndex === 1) { // 포화지방
+                                    value /= 5;
+                                    label += value.toFixed(1) + 'g';
+                                } else {
+                                    label += value.toFixed(1);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const brandProteinData = {
+            labels: ['룩트 띠크', '그릭데이 시그니처', '요즘', '매일바이오', '요플레 그릭 마일드'],
+            datasets: [{
+                label: '단백질 함량 (g/100g)',
+                data: [12, 11.4, 11, 7, 6.3],
+                backgroundColor: [
+                    energeticPalette.red,
+                    energeticPalette.yellow,
+                    energeticPalette.green,
+                    energeticPalette.blue,
+                    energeticPalette.dark
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        };
+
+        new Chart(document.getElementById('brandProteinChart'), {
+            type: 'bar',
+            data: brandProteinData,
+            options: {
+                ...defaultChartOptions,
+                indexAxis: 'y',
+                plugins: {
+                    ...defaultChartOptions.plugins,
+                    legend: {
+                        display: false
+                    }
+                },
+                 scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '단백질 (g)',
+                            color: energeticPalette.dark,
+                            font: {
+                                size: 14,
+                                weight: 'bold',
+                                family: "'Noto Sans KR', sans-serif"
+                            }
+                        },
+                        ticks: {
+                            color: energeticPalette.dark,
+                            font: {
+                               family: "'Noto Sans KR', sans-serif",
+                            }
+                        },
+                         grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: energeticPalette.dark,
+                             font: {
+                               family: "'Noto Sans KR', sans-serif",
+                               size: 14
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

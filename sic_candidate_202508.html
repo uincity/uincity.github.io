@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가치 투자 분석: 52주 신저가에서 찾는 기회</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #FF6B6B;
+        }
+        .kpi-label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #4A4A4A;
+            margin-top: 0.5rem;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #1A202C;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .section-subtitle {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: #4A5568;
+            margin-bottom: 3rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .company-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .company-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1A202C;
+        }
+        .company-ticker {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #718096;
+            margin-left: 0.5rem;
+        }
+        .investment-thesis {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #2D3748;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #FFF2F2;
+            border-left: 4px solid #FF6B6B;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <header class="bg-[#4ECDC4] text-white text-center py-12 px-4">
+        <h1 class="text-4xl md:text-5xl font-black mb-4">역경 속의 기회: 52주 신저가에서 찾는 가치주</h1>
+        <p class="text-lg md:text-xl max-w-3xl mx-auto">시장의 비관론이 극에 달했을 때, 진정한 가치를 지닌 기업을 발견할 수 있습니다. 본 인포그래픽은 엄선된 5개 저평가 기업의 핵심 투자 포인트를 시각적으로 분석합니다.</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section class="my-16">
+            <h2 class="section-title">5개 기업 핵심 지표 비교</h2>
+            <p class="section-subtitle">각 기업은 자산, 품질, 배당 등 각기 다른 가치 투자 매력을 지니고 있습니다. 아래 차트를 통해 5개 기업의 상대적인 강점을 한눈에 비교해 보세요.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="company-card">
+                    <h3 class="text-xl font-bold text-center mb-4">PBR (주가순자산비율) 비교</h3>
+                    <div class="chart-container h-80 md:h-96"><canvas id="pbrChart"></canvas></div>
+                    <p class="mt-4 text-center text-gray-600">PBR은 기업의 순자산 대비 주가 수준을 나타냅니다. 1배 미만일 경우 자산 가치 대비 저평가된 것으로 해석할 수 있습니다. 특히 KCC글라스의 PBR이 현저히 낮은 것을 확인할 수 있습니다.</p>
+                </div>
+                <div class="company-card">
+                    <h3 class="text-xl font-bold text-center mb-4">배당수익률 비교</h3>
+                    <div class="chart-container h-80 md:h-96"><canvas id="dividendChart"></canvas></div>
+                    <p class="mt-4 text-center text-gray-600">배당수익률은 안정적인 현금 흐름을 중시하는 투자자에게 중요한 지표입니다. SK텔레콤과 인천도시가스는 시장 평균을 크게 상회하는 높은 배당 매력을 보여줍니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="my-16">
+            <h2 class="section-title">개별 기업 심층 분석</h2>
+            <p class="section-subtitle">각 기업의 고유한 투자 논리와 핵심 데이터를 자세히 살펴보겠습니다.</p>
+
+            <div class="space-y-12">
+                <div class="company-card">
+                    <div class="md:flex md:items-center md:justify-between">
+                        <div>
+                            <span class="company-name">미원상사</span>
+                            <span class="company-ticker">002840</span>
+                        </div>
+                        <div class="mt-2 md:mt-0 text-lg font-bold text-[#FF6B6B]">#퀄리티주 #숨은강자</div>
+                    </div>
+                    <p class="investment-thesis">높은 기술적 해자와 다각화된 사업을 바탕으로 안정적인 고수익을 창출하지만, 시장에서 소외되어 합리적인 가격에 거래되고 있는 우량 기업입니다.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-bold text-center mb-4">독보적인 수익성 (ROE)</h3>
+                            <div class="chart-container h-80"><canvas id="miwonRoeChart"></canvas></div>
+                            <p class="mt-4 text-center text-gray-600">미원상사의 ROE는 16.95%로, 업종 평균을 압도하는 뛰어난 수익 창출 능력을 보여줍니다.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="kpi-card">
+                                <div class="kpi-value">18.4%</div>
+                                <div class="kpi-label">부채비율</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value">13.5x</div>
+                                <div class="kpi-label">PER</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value">16.0%</div>
+                                <div class="kpi-label">영업이익률</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value">1.17%</div>
+                                <div class="kpi-label">배당수익률</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="company-card">
+                    <div class="md:flex md:items-center md:justify-between">
+                        <div>
+                            <span class="company-name">LG생활건강</span>
+                            <span class="company-ticker">051900</span>
+                        </div>
+                        <div class="mt-2 md:mt-0 text-lg font-bold text-[#FF6B6B]">#턴어라운드 #역발상투자</div>
+                    </div>
+                    <p class="investment-thesis">중국 시장 부진으로 주가가 과도하게 하락했으나, 북미/일본 등 신시장으로의 성공적인 전략 전환 가능성을 품고 있는 '추락한 천사'입니다.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-bold text-center mb-4">신시장 성장률 (전년 동기 대비)</h3>
+                            <div class="chart-container h-80"><canvas id="lgHhGrowthChart"></canvas></div>
+                            <p class="mt-4 text-center text-gray-600">전사 실적 부진 속에서도 북미와 일본 매출은 꾸준히 성장하며 새로운 가능성을 보여주고 있습니다.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="kpi-card">
+                                <div class="kpi-value">1.02x</div>
+                                <div class="kpi-label">PBR</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value">30.1%</div>
+                                <div class="kpi-label">부채비율</div>
+                            </div>
+                             <div class="kpi-card">
+                                <div class="kpi-value">3.88%</div>
+                                <div class="kpi-label">ROE</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value">1.53%</div>
+                                <div class="kpi-label">배당수익률</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="company-card">
+                     <div class="md:flex md:items-center md:justify-between">
+                        <div>
+                            <span class="company-name">SK텔레콤</span>
+                            <span class="company-ticker">017670</span>
+                        </div>
+                        <div class="mt-2 md:mt-0 text-lg font-bold text-[#FF6B6B]">#고배당 #AI성장주</div>
+                    </div>
+                    <p class="investment-thesis">안정적인 통신 사업의 현금흐름을 바탕으로 AI라는 신성장 동력을 장착했습니다. 높은 배당을 받으며 AI 사업의 성장을 기다릴 수 있는 매력적인 투자처입니다.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-bold text-center mb-4">압도적인 배당 매력</h3>
+                            <div class="chart-container h-80"><canvas id="sktDividendChart"></canvas></div>
+                            <p class="mt-4 text-center text-gray-600">약 6.8%에 달하는 기대 배당수익률은 주가의 하방을 지지하는 강력한 안전마진 역할을 합니다.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-center mb-4">AI 사업 성장률 (전년 동기 대비)</h3>
+                            <div class="chart-container h-80"><canvas id="sktGrowthChart"></canvas></div>
+                            <p class="mt-4 text-center text-gray-600">AI 데이터센터와 AI 솔루션 사업이 고성장을 지속하며 미래 가치를 키워나가고 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="company-card">
+                    <div class="md:flex md:items-center md:justify-between">
+                        <div>
+                            <span class="company-name">KCC글라스</span>
+                            <span class="company-ticker">344820</span>
+                        </div>
+                        <div class="mt-2 md:mt-0 text-lg font-bold text-[#FF6B6B]">#자산가치주 #경기순환주</div>
+                    </div>
+                    <p class="investment-thesis">건설 경기 침체로 주가가 순자산가치에 크게 못 미치는 수준입니다. 인도네시아 신공장 가동은 새로운 성장 동력이 될 것입니다.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-bold text-center mb-4">극단적 저평가 상태 (PBR)</h3>
+                            <div class="chart-container h-80"><canvas id="kccPbrChart"></canvas></div>
+                            <p class="mt-4 text-center text-gray-600">PBR 0.44배는 시장 가치가 장부상 순자산의 절반에도 미치지 못함을 의미하며, 강력한 안전마진을 제공합니다.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="kpi-card">
+                                <div class="kpi-value">0.44x</div>
+                                <div class="kpi-label">PBR</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value">8.64x</div>
+                                <div class="kpi-label">PER</div>
+                            </div>
+                             <div class="kpi-card">
+                                <div class="kpi-value">44만톤</div>
+                                <div class="kpi-label">인도네시아 공장 연간 생산능력</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value">2.70%</div>
+                                <div class="kpi-label">배당수익률</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="company-card">
+                    <div class="md:flex md:items-center md:justify-between">
+                        <div>
+                            <span class="company-name">인천도시가스</span>
+                            <span class="company-ticker">034590</span>
+                        </div>
+                        <div class="mt-2 md:mt-0 text-lg font-bold text-[#FF6B6B]">#채권형주식 #안정성</div>
+                    </div>
+                    <p class="investment-thesis">지역 독점 유틸리티 사업자로서 경기 변동에 둔감하고 예측 가능한 현금흐름을 창출합니다. 꾸준한 고배당은 채권과 유사한 '인컴 자산' 가치를 제공합니다.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-bold text-center mb-4">지난 10년간 주당 배당금 추이</h3>
+                            <div class="chart-container h-80"><canvas id="incheonGasDividendHistoryChart"></canvas></div>
+                            <p class="mt-4 text-center text-gray-600">10년 이상 매년 1,250원의 배당을 꾸준히 지급하며 놀라운 안정성과 일관성을 보여주고 있습니다.</p>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-value">4.9%</div>
+                            <div class="kpi-label">현재 기대 배당수익률</div>
+                            <p class="mt-4 text-gray-700">이는 시중 예금 금리를 상회하는 매력적인 수준으로, 안정적인 현금 흐름을 원하는 투자자에게 적합합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center p-8 mt-16">
+        <p>본 자료는 제공된 분석 보고서를 기반으로 제작되었으며, 투자 추천이 아닌 정보 제공을 목적으로 합니다.</p>
+        <p class="mt-2">투자에 대한 모든 책임은 투자자 본인에게 있습니다.</p>
+    </footer>
+
+    <script>
+        const vibrantPalette = {
+            primary: '#FF6B6B',
+            secondary: '#4ECDC4',
+            tertiary: '#45B7D1',
+            accent: '#FED766',
+            dark: '#1A535C',
+            light: '#F7FFF7',
+        };
+
+        const tooltipPlugin = {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        function wrapLabel(label, maxLength = 16) {
+            if (label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        }
+        
+        const companies = ['미원상사', 'LG생활건강', 'SK텔레콤', 'KCC글라스', '인천도시가스'];
+        const pbrData = [2.13, 1.02, 1.01, 0.44, 0.80];
+        const dividendData = [1.17, 1.53, 6.80, 2.70, 4.90];
+
+        new Chart(document.getElementById('pbrChart'), {
+            type: 'bar',
+            data: {
+                labels: companies.map(label => wrapLabel(label)),
+                datasets: [{
+                    label: 'PBR (배)',
+                    data: pbrData,
+                    backgroundColor: [vibrantPalette.primary, vibrantPalette.secondary, vibrantPalette.tertiary, vibrantPalette.accent, vibrantPalette.dark],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    ...tooltipPlugin
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'PBR (배)' }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('dividendChart'), {
+            type: 'bar',
+            data: {
+                labels: companies.map(label => wrapLabel(label)),
+                datasets: [{
+                    label: '배당수익률 (%)',
+                    data: dividendData,
+                    backgroundColor: [vibrantPalette.primary, vibrantPalette.secondary, vibrantPalette.tertiary, vibrantPalette.accent, vibrantPalette.dark],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    ...tooltipPlugin
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '배당수익률 (%)' }
+                    }
+                }
+            }
+        });
+        
+        new Chart(document.getElementById('miwonRoeChart'), {
+            type: 'bar',
+            data: {
+                labels: ['미원상사', '화학 업종 평균'],
+                datasets: [{
+                    label: 'ROE (%)',
+                    data: [16.95, 1.65],
+                    backgroundColor: [vibrantPalette.primary, vibrantPalette.accent],
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    ...tooltipPlugin
+                },
+                 scales: {
+                    x: {
+                        title: { display: true, text: 'ROE (%)' }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('lgHhGrowthChart'), {
+            type: 'bar',
+            data: {
+                labels: ['북미 매출 성장률', '일본 매출 성장률'],
+                datasets: [{
+                    label: '성장률 (%)',
+                    data: [6.4, 12.9],
+                    backgroundColor: [vibrantPalette.secondary, vibrantPalette.tertiary],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    ...tooltipPlugin
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '성장률 (%)' }
+                    }
+                }
+            }
+        });
+        
+        new Chart(document.getElementById('sktDividendChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['기대 배당수익률', '100% 기준 나머지'],
+                datasets: [{
+                    data: [6.8, 100-6.8],
+                    backgroundColor: [vibrantPalette.primary, '#E2E8F0'],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                if (context.dataIndex === 0) {
+                                    return ` 기대 배당수익률: ${context.raw.toFixed(1)}%`;
+                                }
+                                return null;
+                            },
+                             title: function(tooltipItems) { return '';}
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+
+        new Chart(document.getElementById('sktGrowthChart'), {
+            type: 'bar',
+            data: {
+                labels: ['AI 데이터센터', 'AI 솔루션 (AIX)'],
+                datasets: [{
+                    label: '매출 성장률 (%)',
+                    data: [13.3, 15.3],
+                    backgroundColor: [vibrantPalette.dark, vibrantPalette.tertiary],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    ...tooltipPlugin
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '성장률 (%)' }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('kccPbrChart'), {
+            type: 'bar',
+            data: {
+                labels: ['KCC글라스 PBR', '기준 PBR'],
+                datasets: [{
+                    label: 'PBR (배)',
+                    data: [0.44, 1.0],
+                    backgroundColor: [vibrantPalette.primary, '#CBD5E0'],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    ...tooltipPlugin
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'PBR (배)' }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('incheonGasDividendHistoryChart'), {
+            type: 'line',
+            data: {
+                labels: ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+                datasets: [{
+                    label: '주당 배당금 (원)',
+                    data: [1250, 1250, 1250, 1250, 1250, 1250, 1250, 1250, 1250, 1250],
+                    fill: true,
+                    backgroundColor: 'rgba(78, 205, 196, 0.2)',
+                    borderColor: vibrantPalette.secondary,
+                    tension: 0.1,
+                    pointBackgroundColor: vibrantPalette.secondary,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    ...tooltipPlugin
+                },
+                scales: {
+                    y: {
+                        title: { display: true, text: '주당 배당금 (원)' },
+                        suggestedMin: 1000,
+                        suggestedMax: 1500
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

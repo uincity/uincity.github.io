@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유수홀딩스(000700) 대화형 가치 분석</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: "Calm Corporate Blue & Gold" -->
+    <!-- Application Structure Plan: The SPA is designed as a top-down narrative dashboard. It starts with a high-level investment thesis, then allows users to drill down into the core value drivers (IT, Logistics, Assets). The centerpiece is an interactive SOTP valuation chart where users can adjust the holding company discount to see its impact in real-time. This is followed by a balanced view of catalysts and risks, and finally, future scenarios. This structure was chosen to guide the user from a broad overview to a detailed, interactive analysis, making the complex financial data more digestible and engaging than a static report. -->
+    <!-- Visualization & Content Choices: 
+        - SOTP Analysis: Goal is to let users explore valuation. Method is an interactive stacked bar chart (Chart.js) with a slider for the discount rate. This empowers users to test assumptions.
+        - Business Contribution: Goal is to show profit source disparity. Method is a set of two donut charts (Chart.js) comparing revenue vs. operating profit share. This gives an instant visual insight into CyberLogitec's importance.
+        - Risks & Catalysts: Goal is to present a balanced view. Method is a two-column layout with icons and clear text. This allows for easy comparison.
+        - Core Assets: Goal is to highlight the key pillars. Method is a card-based layout. This breaks down complex information into manageable chunks.
+        - Justification: All choices prioritize interactivity and visual clarity to transform a dense report into an exploratory tool.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                 max-width: 800px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link:hover {
+            color: #059669; /* emerald-600 */
+        }
+        .active-link {
+            color: #059669; /* emerald-600 */
+            border-bottom: 2px solid #059669;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl md:text-2xl font-bold text-slate-800">유수홀딩스 가치 분석</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#summary" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-600">핵심 투자 논리</a>
+                        <a href="#sotp" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-600">가치 분석 (SOTP)</a>
+                        <a href="#drivers" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-600">핵심 자산</a>
+                        <a href="#risks" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-slate-600">리스크와 기회</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <section id="summary" class="text-center my-12 md:my-20 scroll-mt-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-emerald-700 mb-4">지주사 할인 너머의 깊은 가치를 찾아서</h2>
+            <p class="max-w-3xl mx-auto text-base md:text-lg text-slate-600">
+                유수홀딩스의 현재 시장 가격은 회사가 보유한 핵심 자산들의 내재가치를 온전히 반영하지 못하고 있습니다. 이 분석은 숨겨진 가치의 원천을 파헤치고, 가치 현실화를 이끌 촉매와 잠재적 리스크를 종합적으로 평가하여 3년 내 시가총액 2배 상승 가능성을 탐색합니다.
+            </p>
+        </section>
+
+        <section id="sotp" class="bg-white p-6 md:p-8 rounded-2xl shadow-lg mb-16 scroll-mt-20">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl md:text-3xl font-bold mb-2">대화형 가치 평가 (SOTP)</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    사업부문별 가치합산(SOTP)은 유수홀딩스의 내재가치를 평가하는 가장 효과적인 방법입니다. 아래 차트는 각 사업부와 자산의 가치를 시각적으로 보여줍니다. 슬라이더를 움직여 '지주사 할인율'을 직접 조정하고, 이에 따라 적정 시가총액과 상승 여력이 어떻게 변하는지 확인해보세요.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-center">
+                <div class="md:col-span-2">
+                    <div class="chart-container h-[400px] md:h-[450px]">
+                        <canvas id="sotpChart"></canvas>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <label for="discountRate" class="block text-sm font-medium text-slate-700 mb-2">지주사 할인율 조정</label>
+                        <div class="flex items-center space-x-4">
+                            <input id="discountRate" type="range" min="20" max="50" value="35" step="1" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                            <span id="discountValue" class="font-bold text-emerald-600 text-lg w-16 text-center">35%</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-100 p-4 rounded-lg space-y-3">
+                        <div>
+                            <p class="text-sm text-slate-500">총자산가치 (GAV)</p>
+                            <p id="gavValue" class="text-2xl font-bold text-slate-800">6,760 억원</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-500">현재 시가총액</p>
+                            <p id="currentMarketCap" class="text-2xl font-bold text-slate-800">1,497 억원</p>
+                        </div>
+                    </div>
+                    <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-lg space-y-3">
+                         <div>
+                            <p class="text-sm text-emerald-800">적정 시가총액</p>
+                            <p id="fairMarketCap" class="text-2xl font-bold text-emerald-700">4,394 억원</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-emerald-800">상승 여력</p>
+                            <p id="upsidePotential" class="text-2xl font-bold text-emerald-700">+193%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="drivers" class="mb-16 scroll-mt-20">
+            <div class="text-center mb-8 md:mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold mb-2">가치를 구성하는 세 개의 기둥</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto">유수홀딩스의 가치는 명확히 구분되는 세 가지 핵심 자산에서 비롯됩니다. 각 자산은 그룹의 안정성과 성장성을 뒷받침하는 중요한 역할을 합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center mb-3">
+                        <span class="text-3xl mr-3">💎</span>
+                        <h4 class="text-xl font-bold text-blue-700">IT 솔루션 (싸이버로지텍)</h4>
+                    </div>
+                    <p class="text-slate-600">글로벌 1위 해운 IT 솔루션 기업. 20%를 상회하는 압도적 영업이익률로 그룹 이익 창출의 핵심 엔진 역할을 하며, IPO 시 막대한 가치 재평가가 기대됩니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
+                     <div class="flex items-center mb-3">
+                        <span class="text-3xl mr-3">🚚</span>
+                        <h4 class="text-xl font-bold text-green-700">글로벌 물류 (유수로지스틱스)</h4>
+                    </div>
+                    <p class="text-slate-600">안정적인 3자 물류(3PL) 사업. 그룹 매출의 가장 큰 비중을 차지하며 경기 사이클에 따라 꾸준한 현금 흐름을 창출하는 기초 체력입니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center mb-3">
+                        <span class="text-3xl mr-3">🏢</span>
+                        <h4 class="text-xl font-bold text-amber-700">자산 관리 (부동산/현금)</h4>
+                    </div>
+                    <p class="text-slate-600">케이스퀘어 신촌 빌딩 등 우량 부동산과 막대한 현금성 자산. 기업 가치의 강력한 하방 경직성을 제공하는 든든한 안전판입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 md:p-8 rounded-2xl shadow-lg mb-16 scroll-mt-20">
+            <div class="text-center mb-8">
+                <h3 class="text-2xl md:text-3xl font-bold mb-2">수익성의 비밀: 싸이버로지텍의 기여도</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    매출 비중과 영업이익 기여도의 차이는 싸이버로지텍의 압도적인 수익성을 명확히 보여줍니다. IT 부문이 어떻게 그룹 전체의 이익을 견인하는지 확인해보세요.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-center font-semibold text-lg mb-4">사업부별 매출 비중 (23년 3분기 누적)</h4>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-center font-semibold text-lg mb-4">사업부별 영업이익 기여도 (23년 3분기 누적)</h4>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="risks" class="mb-16 scroll-mt-20">
+            <div class="text-center mb-8 md:mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold mb-2">기회와 리스크의 균형</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto">투자는 항상 기회와 리스크를 함께 고려해야 합니다. 유수홀딩스의 가치 현실화를 이끌 핵심 촉매와 반드시 인지해야 할 잠재적 리스크 요인을 비교 분석합니다.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl border-l-4 border-emerald-500 shadow-md">
+                    <h4 class="text-xl font-bold text-emerald-700 mb-4">🚀 가치 상승 촉매 (기회)</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-emerald-500 mr-3 mt-1">✓</span>
+                            <div>
+                                <strong class="font-semibold">싸이버로지텍 IPO</strong>
+                                <p class="text-slate-600 text-sm">가치 재평가를 이끌 가장 강력한 이벤트. 성공 시 지분가치만으로 현재 시총을 상회할 잠재력.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                           <span class="text-emerald-500 mr-3 mt-1">✓</span>
+                            <div>
+                                <strong class="font-semibold">행동주의 펀드 개입</strong>
+                                <p class="text-slate-600 text-sm">미리캐피탈(지분 11% 이상)의 존재는 경영진이 주주가치 제고에 나서도록 하는 실질적 압박으로 작용.</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                           <span class="text-emerald-500 mr-3 mt-1">✓</span>
+                            <div>
+                                <strong class="font-semibold">높은 주주환원</strong>
+                                <p class="text-slate-600 text-sm">6% 이상의 높은 배당수익률과 지속적인 자사주 매입은 주주 친화 정책에 대한 경영진의 의지를 증명.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border-l-4 border-rose-500 shadow-md">
+                    <h4 class="text-xl font-bold text-rose-700 mb-4">⚠️ 잠재적 리스크 (주의점)</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                             <span class="text-rose-500 mr-3 mt-1">✗</span>
+                            <div>
+                                <strong class="font-semibold">지배구조 오버행 ("오너 리스크")</strong>
+                                <p class="text-slate-600 text-sm">지배주주 관련 과거 이력은 투자 심리에 부담으로 작용하는 고질적인 할인 요인.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-rose-500 mr-3 mt-1">✗</span>
+                            <div>
+                                <strong class="font-semibold">IPO 실행 불확실성</strong>
+                                <p class="text-slate-600 text-sm">IPO가 지연되거나 기대에 못 미치는 가치로 평가될 경우, 가치 현실화 지연 가능성.</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                            <span class="text-rose-500 mr-3 mt-1">✗</span>
+                            <div>
+                                <strong class="font-semibold">경기 순환적 영향</strong>
+                                <p class="text-slate-600 text-sm">물류 사업은 글로벌 경기 및 해상 운임 변동에 영향을 받으며, 이는 실적 변동성으로 이어질 수 있음.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 py-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; 2024 EUSU Holdings Interactive Analysis. All rights reserved.</p>
+            <p class="mt-1 text-slate-400">본 자료는 정보 제공을 목적으로 하며, 특정 종목에 대한 투자 추천이 아닙니다. 투자에 대한 결정과 책임은 투자자 본인에게 있습니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sotpData = {
+                gav: 6760,
+                currentMarketCap: 1497,
+                components: {
+                    labels: ['싸이버로지텍', '유수로지스틱스', '투자 부동산', '순현금'],
+                    values: [3210, 400, 1300, 1850]
+                },
+                shareCount: 26042240
+            };
+
+            const discountRateSlider = document.getElementById('discountRate');
+            const discountValueSpan = document.getElementById('discountValue');
+            const gavValueP = document.getElementById('gavValue');
+            const currentMarketCapP = document.getElementById('currentMarketCap');
+            const fairMarketCapP = document.getElementById('fairMarketCap');
+            const upsidePotentialP = document.getElementById('upsidePotential');
+
+            const sotpCtx = document.getElementById('sotpChart').getContext('2d');
+            let sotpChart;
+
+            function formatNumber(num) {
+                return new Intl.NumberFormat('ko-KR').format(Math.round(num));
+            }
+
+            function updateSotpValues(discountRate) {
+                const discountMultiplier = 1 - (discountRate / 100);
+                const fairMarketCap = sotpData.gav * discountMultiplier;
+                const upsidePotential = ((fairMarketCap / sotpData.currentMarketCap) - 1) * 100;
+
+                discountValueSpan.textContent = `${discountRate}%`;
+                fairMarketCapP.textContent = `${formatNumber(fairMarketCap)} 억원`;
+                upsidePotentialP.textContent = `${upsidePotential >= 0 ? '+' : ''}${formatNumber(upsidePotential)}%`;
+                
+                return fairMarketCap;
+            }
+
+            function createSotpChart() {
+                const initialDiscount = parseInt(discountRateSlider.value);
+                const initialFairMarketCap = updateSotpValues(initialDiscount);
+
+                sotpChart = new Chart(sotpCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['가치 구성'],
+                        datasets: [
+                            { label: sotpData.components.labels[0], data: [sotpData.components.values[0]], backgroundColor: 'rgba(59, 130, 246, 0.7)' },
+                            { label: sotpData.components.labels[1], data: [sotpData.components.values[1]], backgroundColor: 'rgba(16, 185, 129, 0.7)' },
+                            { label: sotpData.components.labels[2], data: [sotpData.components.values[2]], backgroundColor: 'rgba(245, 158, 11, 0.7)' },
+                            { label: sotpData.components.labels[3], data: [sotpData.components.values[3]], backgroundColor: 'rgba(107, 114, 128, 0.7)' },
+                            {
+                                type: 'line',
+                                label: '현재 시가총액',
+                                data: [sotpData.currentMarketCap],
+                                borderColor: 'rgb(239, 68, 68)',
+                                borderWidth: 3,
+                                pointRadius: 0,
+                                fill: false,
+                                borderDash: [5, 5],
+                                yAxisID: 'y'
+                            },
+                            {
+                                type: 'line',
+                                label: '적정 시가총액',
+                                data: [initialFairMarketCap],
+                                borderColor: 'rgb(5, 150, 105)',
+                                borderWidth: 3,
+                                pointRadius: 0,
+                                fill: false,
+                                yAxisID: 'y'
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                stacked: true,
+                                title: { display: true, text: '가치 (억원)' }
+                            },
+                            y: {
+                                stacked: true,
+                                display: false
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '유수홀딩스 사업부문별 가치합산(SOTP) 분석',
+                                font: { size: 16 }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.x !== null) {
+                                            label += formatNumber(context.parsed.x) + ' 억원';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            },
+                            legend: {
+                                position: 'bottom',
+                            }
+                        }
+                    }
+                });
+            }
+
+            discountRateSlider.addEventListener('input', (event) => {
+                const newDiscountRate = parseInt(event.target.value);
+                const newFairMarketCap = updateSotpValues(newDiscountRate);
+                sotpChart.data.datasets[5].data = [newFairMarketCap];
+                sotpChart.update();
+            });
+
+            gavValueP.textContent = `${formatNumber(sotpData.gav)} 억원`;
+            currentMarketCapP.textContent = `${formatNumber(sotpData.currentMarketCap)} 억원`;
+
+            createSotpChart();
+
+            const commonDonutOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            };
+
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['글로벌 물류', 'IT 솔루션', '기타'],
+                    datasets: [{
+                        data: [69.9, 28.6, 1.5],
+                        backgroundColor: ['rgba(16, 185, 129, 0.7)', 'rgba(59, 130, 246, 0.7)', 'rgba(107, 114, 128, 0.7)'],
+                        borderColor: ['#fff'],
+                        borderWidth: 2
+                    }]
+                },
+                options: commonDonutOptions
+            });
+
+            const profitCtx = document.getElementById('profitChart').getContext('2d');
+            new Chart(profitCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['IT 솔루션', '기타'],
+                    datasets: [{
+                        data: [92.3, 7.7],
+                        backgroundColor: ['rgba(59, 130, 246, 0.7)', 'rgba(107, 114, 128, 0.7)'],
+                        borderColor: ['#fff'],
+                        borderWidth: 2
+                    }]
+                },
+                options: commonDonutOptions
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 80) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active-link');
+                    }
+                });
+            });
+
+            navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

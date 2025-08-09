@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT-5: 생성형 AI의 새로운 시대</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #665191, #f95d6a, #ffa600);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .flow-box {
+            border: 2px solid #2f4b7c;
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .flow-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        .arrow {
+            font-size: 2.5rem;
+            color: #2f4b7c;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(47, 75, 124, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+        .kpi-number {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .kpi-label {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+        .section-intro {
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+            color: #334155;
+            font-size: 1.125rem;
+            line-height: 1.75;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12 md:my-20">
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4">GPT-5: 생성형 AI의 새로운 시대</h1>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">단순한 성능 향상을 넘어, AI의 경제성과 자율성을 재정의하는 아키텍처의 혁신</p>
+        </header>
+
+        <section id="architecture" class="my-16 md:my-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">아키텍처의 패러다임 전환</h2>
+            <p class="section-intro text-center mb-12">
+                GPT-5의 가장 큰 도약은 정적인 '전문가 혼합(MoE)'에서 동적인 '지능형 라우팅' 시스템으로의 전환입니다. 이는 작업의 복잡성을 실시간으로 분석하여 최적의 모델을 할당함으로써, 비용과 성능의 균형을 맞추는 혁신적인 접근 방식입니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto">
+                <div class="p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#2f4b7c]">GPT-4: 전문가 혼합 (MoE)</h3>
+                    <div class="flex flex-col items-center">
+                        <div class="flow-box w-full">사용자 프롬프트</div>
+                        <div class="arrow">↓</div>
+                        <div class="flow-box w-full">정적 라우터 (토큰 단위)</div>
+                        <div class="arrow">↓</div>
+                        <div class="p-4 border-2 border-dashed border-gray-400 rounded-lg w-full">
+                            <h4 class="font-semibold text-center mb-2">16개 전문가 모델 풀</h4>
+                            <div class="grid grid-cols-4 gap-2">
+                                <div class="bg-blue-100 text-blue-800 p-2 rounded text-sm text-center">전문가 1</div>
+                                <div class="bg-blue-200 text-blue-900 p-2 rounded text-sm text-center">전문가 2</div>
+                                <div class="bg-blue-100 text-blue-800 p-2 rounded text-sm text-center">...</div>
+                                <div class="bg-blue-100 text-blue-800 p-2 rounded text-sm text-center">전문가 16</div>
+                            </div>
+                            <p class="text-xs text-center mt-2 text-gray-500">각 토큰마다 2개의 전문가 활성화</p>
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="flow-box w-full">단일 추론 경로를 통한 결과 생성</div>
+                    </div>
+                </div>
+                <div class="p-6 bg-white rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#a05195]">GPT-5: 동적 라우팅 시스템</h3>
+                     <div class="flex flex-col items-center">
+                        <div class="flow-box w-full">사용자 프롬프트</div>
+                        <div class="arrow">↓</div>
+                        <div class="flow-box w-full bg-purple-50 border-purple-500">지능형 라우터 (과제 단위 분석)</div>
+                        <div class="arrow">↓</div>
+                        <div class="p-4 border-2 border-dashed border-purple-400 rounded-lg w-full">
+                            <h4 class="font-semibold text-center mb-2">계층화된 모델 풀</h4>
+                            <div class="space-y-2">
+                                <div class="bg-green-100 text-green-800 p-2 rounded text-center">효율 모델 (GPT-5-Mini)</div>
+                                <div class="bg-yellow-100 text-yellow-800 p-2 rounded text-center">표준 모델 (GPT-5)</div>
+                                <div class="bg-red-100 text-red-800 p-2 rounded text-center">고성능 추론 모델 (GPT-5 "Thinking")</div>
+                            </div>
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="flow-box w-full">과제에 최적화된 결과 생성</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="performance" class="my-16 md:my-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">새로운 성능의 지평</h2>
+            <p class="section-intro text-center mb-12">
+                GPT-5는 코딩, 추론, 신뢰성 등 핵심 영역에서 전례 없는 성능 향상을 기록했습니다. 특히 실제 개발 환경에서의 문제 해결 능력과 환각 현상의 획기적인 감소는 AI의 엔터프라이즈 도입을 가속화할 것입니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-center mb-4">코딩 능력: GitHub 이슈 해결</h3>
+                    <p class="text-sm text-gray-600 text-center mb-4">(SWE-bench Verified, 높을수록 좋음)</p>
+                    <div class="chart-container"><canvas id="codingBenchChart"></canvas></div>
+                    <p class="text-center text-sm mt-4 text-gray-700">GPT-5는 이전 모델 대비 실제 소프트웨어 버그 해결 능력이 <strong>2배 이상</strong> 향상되어, 전문 개발 도구로서의 가능성을 입증했습니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-center mb-4">수학 추론 능력: AIME 2025</h3>
+                    <p class="text-sm text-gray-600 text-center mb-4">(정확도 %, 높을수록 좋음)</p>
+                    <div class="chart-container"><canvas id="mathBenchChart"></canvas></div>
+                    <p class="text-center text-sm mt-4 text-gray-700">"Thinking" 모드 활성화 시, GPT-5는 최고 난이도 수학 경시대회 문제에서 <strong>거의 완벽한 점수</strong>를 기록하며 인간 전문가 수준의 추론 능력을 보여줍니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-center mb-4">신뢰성: 환각(Hallucination) 비율</h3>
+                    <p class="text-sm text-gray-600 text-center mb-4">(HealthBench, 낮을수록 좋음)</p>
+                    <div class="chart-container"><canvas id="hallucinationChart"></canvas></div>
+                     <p class="text-center text-sm mt-4 text-gray-700">의료 분야 벤치마크에서 환각 비율을 <strong>1.6%</strong>까지 낮추며, 금융, 법률 등 고신뢰성이 요구되는 산업에서의 활용도를 크게 높였습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="market" class="my-16 md:my-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">시장의 재편: 과점 시대의 개막</h2>
+            <p class="section-intro text-center mb-12">
+                GPT-5의 등장은 OpenAI의 독주 시대를 끝내고, 각기 다른 강점을 지닌 소수 기업이 경쟁하는 과점 체제를 열었습니다. 이제 경쟁의 핵심은 모델 성능을 넘어 데이터, 생태계, 신뢰와 같은 '보완 자산'으로 이동하고 있습니다.
+            </p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <h3 class="text-xl font-bold text-center mb-4">주요 경쟁사 전략 비교</h3>
+                    <div class="chart-container h-96 md:h-[500px]"><canvas id="competitorRadarChart"></canvas></div>
+                </div>
+                <div class="space-y-6">
+                    <div class="p-6 bg-white rounded-lg shadow-md border-l-4 border-[#665191]">
+                        <h4 class="font-bold text-lg">OpenAI: 성능 리더십</h4>
+                        <p class="text-gray-600">최고 수준의 모델 성능과 개발자 생태계를 통해 기술 표준을 선도합니다.</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border-l-4 border-[#d45087]">
+                        <h4 class="font-bold text-lg">Google: 생태계 중력</h4>
+                        <p class="text-gray-600">방대한 데이터와 검색, 클라우드, Workspace 등 깊은 통합으로 강력한 해자를 구축합니다.</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-lg shadow-md border-l-4 border-[#f95d6a]">
+                        <h4 class="font-bold text-lg">Anthropic: 엔터프라이즈 신뢰</h4>
+                        <p class="text-gray-600">안전성과 규제 준수를 최우선으로 하여 규제가 심한 산업을 공략합니다.</p>
+                    </div>
+                     <div class="p-6 bg-white rounded-lg shadow-md border-l-4 border-[#ffa600]">
+                        <h4 class="font-bold text-lg">Meta: 오픈소스 파괴력</h4>
+                        <p class="text-gray-600">강력한 Llama 모델을 오픈소스로 공개하여 시장의 가격 압박과 혁신을 주도합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="future" class="my-16 md:my-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">생성형 AI의 다음 시대</h2>
+            <p class="section-intro text-center mb-12">
+                미래 AI 시장은 두 가지 핵심 트렌드가 주도할 것입니다. 하나는 복잡한 작업을 자율적으로 수행하는 'AI 에이전트'의 부상이며, 다른 하나는 기업 환경이 고성능 '프론티어 모델'과 특정 작업에 최적화된 '소형 언어 모델(SLM)'로 양분되는 현상입니다.
+            </p>
+            <div class="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-xl border border-gray-200">
+                <h3 class="text-2xl font-bold text-center mb-6">엔터프라이즈 AI 시장의 이분법</h3>
+                <div class="relative flex flex-col items-center">
+                    <div class="w-full p-4 bg-gradient-to-r from-[#665191] to-[#a05195] text-white rounded-t-lg text-center">
+                        <h4 class="font-bold text-lg">프론티어 모델 (예: GPT-5)</h4>
+                        <p class="text-sm">복잡한 추론, R&D, 전략 수립</p>
+                    </div>
+                    <div class="w-0 h-0 border-l-[50px] border-l-transparent border-t-[30px] border-t-[#a05195] border-r-[50px] border-r-transparent" style="filter: brightness(1.2);"></div>
+                    <div class="w-0 h-0 border-l-[100px] border-l-transparent border-t-[50px] border-t-[#f95d6a] border-r-[100px] border-r-transparent"></div>
+                    <div class="w-full p-4 bg-gradient-to-r from-[#f95d6a] to-[#ffa600] text-white rounded-b-lg text-center mt-[-1px]">
+                        <h4 class="font-bold text-lg">소형 언어 모델 (SLM)</h4>
+                        <p class="text-sm">고객 지원, 데이터 분류, 콘텐츠 생성 등 특정/반복 작업</p>
+                    </div>
+                </div>
+                <p class="text-center text-gray-600 mt-6">기업은 AI 전략 수립 시, 고비용의 프론티어 모델과 저비용/고효율의 SLM을 용도에 맞게 조합하는 <strong>포트폴리오 접근법</strong>이 필요합니다.</p>
+            </div>
+        </section>
+
+        <footer class="text-center my-12 md:my-20 border-t pt-8">
+            <p class="text-gray-600">본 인포그래픽은 제공된 'GPT-5 분석 보고서'를 기반으로 제작되었습니다.</p>
+            <p class="text-sm text-gray-500 mt-2">최종 업데이트: 2025년 8월</p>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const brilliantBlues = {
+                darkBlue: '#003f5c',
+                midBlue: '#2f4b7c',
+                purple: '#665191',
+                magenta: '#a05195',
+                pink: '#d45087',
+                redOrange: '#f95d6a',
+                orange: '#ff7c43',
+                yellow: '#ffa600'
+            };
+
+            const tooltipPlugin = {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const wrapLabel = (label, maxWidth) => {
+                if (label.length <= maxWidth) {
+                    return label;
+                }
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + word).length > maxWidth) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                }
+                lines.push(currentLine.trim());
+                return lines;
+            };
+
+            const codingBenchCtx = document.getElementById('codingBenchChart');
+            if(codingBenchCtx) {
+                new Chart(codingBenchCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['GPT-4o', 'OpenAI o3', 'GPT-5 Pro'],
+                        datasets: [{
+                            label: 'SWE-bench Verified (%)',
+                            data: [33.2, 69.1, 74.9],
+                            backgroundColor: [brilliantBlues.purple, brilliantBlues.redOrange, brilliantBlues.yellow],
+                            borderColor: '#ffffff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: { color: '#e2e8f0' }
+                            },
+                            y: {
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            ...tooltipPlugin
+                        }
+                    }
+                });
+            }
+
+            const mathBenchCtx = document.getElementById('mathBenchChart');
+            if(mathBenchCtx) {
+                new Chart(mathBenchCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['GPT-5', 'GPT-5 "Thinking"'],
+                        datasets: [{
+                            label: 'AIME 2025 정확도 (%)',
+                            data: [99.6, 100],
+                            backgroundColor: [brilliantBlues.redOrange, brilliantBlues.yellow],
+                            borderColor: '#ffffff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                             x: {
+                                beginAtZero: false,
+                                min: 98,
+                                max: 100,
+                                grid: { color: '#e2e8f0' }
+                            },
+                            y: {
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            ...tooltipPlugin
+                        }
+                    }
+                });
+            }
+
+            const hallucinationCtx = document.getElementById('hallucinationChart');
+            if(hallucinationCtx) {
+                new Chart(hallucinationCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['GPT-4o', 'OpenAI o3', 'GPT-5 "Thinking"'],
+                        datasets: [{
+                            label: '환각 비율 (%)',
+                            data: [15.8, 12.9, 1.6],
+                            backgroundColor: [brilliantBlues.purple, brilliantBlues.redOrange, brilliantBlues.yellow],
+                            borderColor: '#ffffff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: { color: '#e2e8f0' }
+                            },
+                             y: {
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            ...tooltipPlugin
+                        }
+                    }
+                });
+            }
+
+            const competitorRadarCtx = document.getElementById('competitorRadarChart');
+            if(competitorRadarCtx) {
+                const originalLabels = ['모델 성능', '생태계 및 데이터', '엔터프라이즈 신뢰', '오픈소스 영향력', '자본 및 인프라'];
+                const wrappedLabels = originalLabels.map(label => wrapLabel(label, 16));
+
+                new Chart(competitorRadarCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: wrappedLabels,
+                        datasets: [
+                            {
+                                label: 'OpenAI',
+                                data: [5, 4, 4, 3, 5],
+                                fill: true,
+                                backgroundColor: 'rgba(102, 81, 145, 0.2)',
+                                borderColor: brilliantBlues.purple,
+                                pointBackgroundColor: brilliantBlues.purple,
+                            },
+                            {
+                                label: 'Google',
+                                data: [4, 5, 4, 4, 5],
+                                fill: true,
+                                backgroundColor: 'rgba(212, 80, 135, 0.2)',
+                                borderColor: brilliantBlues.pink,
+                                pointBackgroundColor: brilliantBlues.pink,
+                            },
+                            {
+                                label: 'Anthropic',
+                                data: [4, 3, 5, 2, 4],
+                                fill: true,
+                                backgroundColor: 'rgba(249, 93, 106, 0.2)',
+                                borderColor: brilliantBlues.redOrange,
+                                pointBackgroundColor: brilliantBlues.redOrange,
+                            },
+                             {
+                                label: 'Meta',
+                                data: [4, 4, 3, 5, 4],
+                                fill: true,
+                                backgroundColor: 'rgba(255, 166, 0, 0.2)',
+                                borderColor: brilliantBlues.yellow,
+                                pointBackgroundColor: brilliantBlues.yellow,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: '#e2e8f0' },
+                                grid: { color: '#e2e8f0' },
+                                pointLabels: { 
+                                    font: { size: 14 },
+                                    color: '#334155'
+                                },
+                                ticks: {
+                                    backdropColor: 'rgba(255, 255, 255, 0.75)',
+                                    stepSize: 1
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 5
+                            }
+                        },
+                        plugins: {
+                           ...tooltipPlugin
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

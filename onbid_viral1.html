@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>온비드 바이럴 콘텐츠 - 이런 것도 온비드에서 팔아요?</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Main Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-6xl font-black mb-4">
+                <span class="gradient-text">이런 것도</span><br>
+                <span class="text-white">온비드에서 팔아요?</span>
+            </h1>
+            <div class="bg-yellow-400 text-black px-6 py-2 rounded-full inline-block font-bold text-lg pulse-animation">
+                🏆 온라인 만물상의 숨겨진 보물들 🏆
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            
+            <!-- 경찰차/소방차 카드 -->
+            <div class="bg-white rounded-2xl p-6 card-hover">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">🚔</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">경찰차 & 소방차</h3>
+                    <p class="text-gray-600 text-sm mb-4">공공기관에서 사용하던 특수 차량들도 공매로!</p>
+                    <div class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-semibold">
+                        <i class="fas fa-fire mr-1"></i>핫딜
+                    </div>
+                </div>
+            </div>
+
+            <!-- 에어팟 카드 -->
+            <div class="bg-white rounded-2xl p-6 card-hover">
+                <div class="text-center">
+                    <div class="mb-4 flex justify-center">
+                        <img src="https://assets.stickpng.com/images/60b79e8771a1fd000411f6be.png" 
+                             alt="AirPods Pro" class="w-20 h-20 object-contain floating">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">유실물 보물</h3>
+                    <p class="text-gray-600 text-sm mb-4">에어팟, 명품가방 등 잃어버린 보물들</p>
+                    <div class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-semibold">
+                        <i class="fas fa-gem mr-1"></i>숨겨진 보석
+                    </div>
+                </div>
+            </div>
+
+            <!-- 귀금속/시계 카드 -->
+            <div class="bg-white rounded-2xl p-6 card-hover">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">⌚</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">귀금속 & 시계</h3>
+                    <p class="text-gray-600 text-sm mb-4">롤렉스부터 다이아몬드까지</p>
+                    <div class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-xs font-semibold">
+                        <i class="fas fa-crown mr-1"></i>럭셔리
+                    </div>
+                </div>
+            </div>
+
+            <!-- 골프용품 카드 -->
+            <div class="bg-white rounded-2xl p-6 card-hover">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">⛳</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">골프용품</h3>
+                    <p class="text-gray-600 text-sm mb-4">고급 골프클럽과 용품들</p>
+                    <div class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-semibold">
+                        <i class="fas fa-leaf mr-1"></i>프리미엄
+                    </div>
+                </div>
+            </div>
+
+            <!-- 와인 카드 -->
+            <div class="bg-white rounded-2xl p-6 card-hover">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">🍷</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">와인 & 귀중품</h3>
+                    <p class="text-gray-600 text-sm mb-4">압류된 고급 주류와 수집품</p>
+                    <div class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-xs font-semibold">
+                        <i class="fas fa-wine-glass mr-1"></i>컬렉션
+                    </div>
+                </div>
+            </div>
+
+            <!-- 공공기관 불용품 카드 -->
+            <div class="bg-white rounded-2xl p-6 card-hover">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">🏢</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">공공기관 불용품</h3>
+                    <p class="text-gray-600 text-sm mb-4">의외의 귀중한 물건들이 가득</p>
+                    <div class="bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full text-xs font-semibold">
+                        <i class="fas fa-surprise mr-1"></i>서프라이즈
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 온비드 정보 섹션 -->
+        <div class="bg-white rounded-3xl p-8 mb-8">
+            <div class="text-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-gavel mr-2 text-blue-600"></i>온비드란?
+                </h2>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    한국자산관리공사(캠코)가 운영하는 <strong class="text-blue-600">국내 최초·최고의 공매포털</strong><br>
+                    2002년부터 시작된 <strong class="text-purple-600">'온라인 만물상'</strong>
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-shield-alt text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">공정하고 투명</h3>
+                    <p class="text-gray-600 text-sm">국가 공인 시스템으로 안전한 거래</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-laptop text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">언제든 온라인</h3>
+                    <p class="text-gray-600 text-sm">24시간 PC·모바일로 입찰 가능</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-tags text-2xl text-yellow-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">저렴한 가격</h3>
+                    <p class="text-gray-600 text-sm">시세 대비 50~70% 저렴한 가격</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 성공 사례 -->
+        <div class="bg-gradient-to-r from-green-400 to-blue-500 rounded-3xl p-8 mb-8 text-white">
+            <h2 class="text-2xl font-bold mb-6 text-center">
+                <i class="fas fa-trophy mr-2"></i>실제 낙찰 성공 사례
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white bg-opacity-20 rounded-xl p-4">
+                    <h3 class="font-bold mb-2">🚗 제네시스 승용차</h3>
+                    <p class="text-sm opacity-90">시세 3,000만원 → 낙찰가 1,800만원</p>
+                    <div class="text-yellow-300 font-bold">40% 절약 성공!</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-xl p-4">
+                    <h3 class="font-bold mb-2">💎 명품 시계 & 가방</h3>
+                    <p class="text-sm opacity-90">유실물 공매로 럭셔리 아이템 겟!</p>
+                    <div class="text-yellow-300 font-bold">70% 할인 혜택!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center">
+            <div class="bg-white rounded-2xl p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    지금 바로 확인하기! 🔍
+                </h2>
+                <div class="space-y-3">
+                    <div class="bg-blue-50 text-blue-700 px-4 py-2 rounded-lg font-semibold">
+                        🌐 www.onbid.co.kr
+                    </div>
+                    <div class="bg-gray-50 text-gray-700 px-4 py-2 rounded-lg">
+                        📱 스마트 온비드 앱 다운로드
+                    </div>
+                </div>
+                
+                <!-- 해시태그 -->
+                <div class="mt-6 text-sm text-gray-500 space-x-2">
+                    <span class="bg-gray-100 px-2 py-1 rounded">#온비드</span>
+                    <span class="bg-gray-100 px-2 py-1 rounded">#공매</span>
+                    <span class="bg-gray-100 px-2 py-1 rounded">#재테크</span>
+                    <span class="bg-gray-100 px-2 py-1 rounded">#온라인만물상</span>
+                    <span class="bg-gray-100 px-2 py-1 rounded">#캠코</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-white text-sm opacity-75">
+            <p>한국자산관리공사(캠코) 공식 온라인 공매 플랫폼</p>
+            <p>🏛️ 국가 공인 • 🔒 안전한 거래 • 💰 합리적 가격</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,468 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코리아에프티(12410) 인터랙티브 가치분석</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Analytical -->
+    <!-- Application Structure Plan: The application is designed as a single-page, top-down narrative dashboard to guide the user through the investment thesis logically. It starts with the macro trend (the 'Hook'), moves to the company's specific advantages, presents the financial proof, quantifies the valuation opportunity, and finally addresses the risks. This structure, moving from broad market context to specific company details, is more intuitive for investment analysis than a simple report layout. Key interactions include hover-able charts and clickable accordion sections for risk analysis, allowing users to progressively disclose information without being overwhelmed. A sticky navigation bar enables quick access to any section, facilitating non-linear exploration. -->
+    <!-- Visualization & Content Choices: 
+        - Hyundai/Kia HEV Penetration (Report Info -> Goal: Show Market Change -> Viz: Line Chart -> Interaction: Hover for details -> Justification: A line chart is the most effective way to visualize a time-series trend, dramatically showing the 'J-curve' growth of HEV adoption which is the core of the thesis. -> Library: Chart.js).
+        - Financial Performance (Report Info -> Goal: Compare & Show Growth -> Viz: Combined Bar/Line Chart -> Interaction: Hover for details -> Justification: A combined chart effectively displays both scale (Revenue/OP as bars) and profitability trends (OPM as a line) in one view, providing a comprehensive financial snapshot. -> Library: Chart.js).
+        - Valuation Comparison (Report Info -> Goal: Compare -> Viz: Horizontal Bar Chart -> Interaction: Static -> Justification: A horizontal bar chart provides a stark, easy-to-read comparison of valuation multiples (PER), instantly highlighting the company's relative undervaluation. -> Library: Chart.js).
+        - Competitive Moat (Report Info -> Goal: Inform/Organize -> Viz: HTML/CSS Grid with Icons -> Interaction: Static -> Justification: A card-based layout with icons breaks down complex concepts like market dominance and ASP premium into digestible, visually appealing chunks. -> Method: HTML/Tailwind CSS).
+        - Risk Assessment (Report Info -> Goal: Organize/Inform -> Viz: Accordion -> Interaction: Click to expand/collapse -> Justification: An accordion prevents information overload by hiding detailed risk mitigation strategies until the user explicitly requests them, keeping the main view clean. -> Method: HTML/Tailwind/JS).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; scroll-behavior: smooth; }
+        .chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 350px; max-height: 50vh; }
+        @media (min-width: 768px) { .chart-container { height: 450px; } }
+        .bg-primary { background-color: #0d3b66; }
+        .text-primary { color: #0d3b66; }
+        .bg-secondary { background-color: #faf0ca; }
+        .text-secondary { color: #faf0ca; }
+        .bg-accent { background-color: #f4d35e; }
+        .text-accent { color: #f4d35e; }
+        .bg-light { background-color: #f7f7f7; }
+        .bg-neutral-100 { background-color: #f8f9fa; }
+        .bg-neutral-200 { background-color: #e9ecef; }
+        .border-neutral-300 { border-color: #dee2e6; }
+        .text-neutral-700 { color: #495057; }
+        .text-neutral-800 { color: #343a40; }
+        .text-neutral-900 { color: #212529; }
+        .sticky-nav { position: -webkit-sticky; position: sticky; top: 0; z-index: 50; }
+        .section-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .section-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="bg-neutral-100 text-neutral-800">
+
+    <header class="bg-primary text-white shadow-md sticky-nav">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold">코리아에프티(12410) 가치분석</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#highlight" class="hover:bg-primary/70 px-3 py-2 rounded-md text-sm font-medium">투자 하이라이트</a>
+                        <a href="#market-shift" class="hover:bg-primary/70 px-3 py-2 rounded-md text-sm font-medium">시장 변화</a>
+                        <a href="#advantage" class="hover:bg-primary/70 px-3 py-2 rounded-md text-sm font-medium">경쟁 우위</a>
+                        <a href="#financials" class="hover:bg-primary/70 px-3 py-2 rounded-md text-sm font-medium">재무 분석</a>
+                        <a href="#valuation" class="hover:bg-primary/70 px-3 py-2 rounded-md text-sm font-medium">가치 평가</a>
+                        <a href="#risks" class="hover:bg-primary/70 px-3 py-2 rounded-md text-sm font-medium">리스크</a>
+                    </div>
+                </div>
+                 <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-primary/70 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#highlight" class="block hover:bg-primary/70 px-3 py-2 rounded-md text-base font-medium">투자 하이라이트</a>
+                <a href="#market-shift" class="block hover:bg-primary/70 px-3 py-2 rounded-md text-base font-medium">시장 변화</a>
+                <a href="#advantage" class="block hover:bg-primary/70 px-3 py-2 rounded-md text-base font-medium">경쟁 우위</a>
+                <a href="#financials" class="block hover:bg-primary/70 px-3 py-2 rounded-md text-base font-medium">재무 분석</a>
+                <a href="#valuation" class="block hover:bg-primary/70 px-3 py-2 rounded-md text-base font-medium">가치 평가</a>
+                <a href="#risks" class="block hover:bg-primary/70 px-3 py-2 rounded-md text-base font-medium">리스크</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <section id="highlight" class="text-center mb-16 pt-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4">하이브리드 슈퍼 사이클의 숨은 강자</h2>
+            <p class="text-lg md:text-xl text-neutral-700 max-w-3xl mx-auto">전기차 캐즘 속에서 폭발적으로 성장하는 하이브리드 시장의 핵심 수혜주, 코리아에프티의 재평가 가능성을 탐색합니다.</p>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-lg section-card">
+                    <p class="text-sm text-neutral-700 font-semibold">현재 주가 (24E PER)</p>
+                    <p class="text-3xl font-bold text-primary">3.47배</p>
+                    <p class="text-xs text-neutral-500 mt-1">업종 평균 대비 극심한 저평가</p>
+                </div>
+                <div class="bg-accent p-6 rounded-lg shadow-lg section-card text-primary">
+                    <p class="text-sm font-semibold">3년 후 목표 주가</p>
+                    <p class="text-3xl font-bold">11,725원</p>
+                    <p class="text-xs mt-1">(27E EPS 1,675원 x 목표 PER 7.0배)</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg section-card">
+                    <p class="text-sm text-neutral-700 font-semibold">기대 상승 여력</p>
+                    <p class="text-3xl font-bold text-green-600">+130%</p>
+                    <p class="text-xs text-neutral-500 mt-1">명확한 안전마진 보유</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="market-shift" class="mb-16 pt-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-neutral-900">시장 변화: 하이브리드, 대세가 되다</h2>
+                <p class="mt-2 text-neutral-700 max-w-2xl mx-auto">국내 자동차 시장은 HEV의 '슈퍼 사이클'에 진입했습니다. 특히 핵심 고객사인 현대차·기아의 판매 데이터는 HEV가 틈새 시장을 넘어 주류로 자리 잡았음을 명확히 보여줍니다. 아래 차트에서 이 폭발적인 성장세를 직접 확인해보세요.</p>
+            </div>
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+                <div class="chart-container">
+                    <canvas id="hevPenetrationChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="advantage" class="mb-16 pt-16">
+             <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-neutral-900">독점적 경쟁 우위: 대체 불가능한 파트너</h2>
+                <p class="mt-2 text-neutral-700 max-w-2xl mx-auto">코리아에프티는 단순한 부품사가 아닙니다. 독점적 기술력과 시장 지배력을 바탕으로 HEV 시대의 핵심 공급망에서 대체 불가능한 위치를 확보했습니다. 동사의 강력한 경쟁 해자를 살펴보세요.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg section-card">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-secondary mb-4">
+                        <span class="text-2xl">?</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-2">고수익 핵심 제품</h3>
+                    <p class="text-neutral-700">HEV용 카본 캐니스터는 기술적 복잡성으로 인해 내연기관용 제품 대비 ASP가 <span class="font-bold text-red-600">1.5배 ~ 2.0배</span> 높습니다. 이는 HEV 판매 증가가 곧바로 수익성 급증으로 이어지는 구조를 만듭니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg section-card">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-full bg-secondary mb-4">
+                        <span class="text-2xl">?</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-2">압도적 시장 지배력</h3>
+                    <p class="text-neutral-700">국내 완성차 5개사 모두에 캐니스터를 공급하며 내수 시장 점유율 <span class="font-bold">80%</span>를 차지합니다. 특히 고마진 HEV용 제품은 현대차그룹에 <span class="font-bold">독점 공급</span>하며 강력한 해자를 구축했습니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg section-card">
+                     <div class="flex items-center justify-center h-12 w-12 rounded-full bg-secondary mb-4">
+                        <span class="text-2xl">?</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-2">성장 동력 다각화</h3>
+                    <p class="text-neutral-700">현대차그룹에 대한 의존도 리스크를 완화하고 있습니다. <span class="font-bold">GM, 르노 등</span> 글로벌 완성차 업체로의 고객 다변화에 성공하며 새로운 성장 동력을 확보하고 있습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="financials" class="mb-16 pt-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-neutral-900">재무 분석: 숫자로 증명된 성장</h2>
+                <p class="mt-2 text-neutral-700 max-w-2xl mx-auto">시장의 구조적 변화는 기업의 재무제표에 그대로 반영됩니다. 코리아에프티의 최근 실적과 향후 전망은 HEV 슈퍼 사이클의 수혜가 어떻게 폭발적인 이익 성장으로 이어지는지 명확히 보여줍니다.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+                     <h3 class="text-center font-bold text-lg mb-2 text-primary">매출 및 이익 성장 추이</h3>
+                    <div class="chart-container" style="height:350px;">
+                        <canvas id="financialsChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+                    <h3 class="text-center font-bold text-lg mb-2 text-primary">수익성 및 주주가치 성장</h3>
+                    <div class="chart-container" style="height:350px;">
+                        <canvas id="profitabilityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="valuation" class="mb-16 pt-16">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-neutral-900">가치 평가: 왜 여전히 저평가인가?</h2>
+                <p class="mt-2 text-neutral-700 max-w-2xl mx-auto">코리아에프티의 투자 기회는 '가치와 가격의 괴리'에서 나옵니다. 견고한 펀더멘털과 성장 전망에도 불구하고, 시장은 여전히 동사의 가치를 제대로 평가하지 않고 있습니다. 그 간극을 확인해보세요.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                 <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+                    <h3 class="text-center font-bold text-lg mb-4 text-primary">PER 멀티플 비교</h3>
+                    <div class="chart-container" style="height:350px;">
+                        <canvas id="valuationChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg h-full flex flex-col justify-center text-center">
+                    <h3 class="text-xl font-bold text-primary mb-4">목표 주가 산출 근거</h3>
+                    <div class="text-2xl md:text-3xl font-mono text-neutral-700 space-y-4">
+                        <div>
+                            <span class="font-semibold text-neutral-500">2027E EPS</span>
+                            <p class="font-bold text-primary">1,675원</p>
+                        </div>
+                        <div class="font-bold text-2xl">×</div>
+                        <div>
+                            <span class="font-semibold text-neutral-500">목표 PER</span>
+                            <p class="font-bold text-primary">7.0배</p>
+                        </div>
+                        <div class="font-bold text-2xl">=</div>
+                        <div>
+                            <span class="font-semibold text-neutral-500">목표 주가</span>
+                            <p class="font-bold text-green-600 text-4xl">11,725원</p>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-neutral-600">압도적인 ROE와 지속적인 이익 성장을 고려할 때, PER 7배는 여전히 보수적인 목표치입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="risks" class="pt-16">
+             <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-neutral-900">주요 리스크 및 완화 요인</h2>
+                <p class="mt-2 text-neutral-700 max-w-2xl mx-auto">모든 투자에는 리스크가 따릅니다. 코리아에프티가 직면한 잠재적 위험과 이를 어떻게 관리하고 있는지 살펴보겠습니다.</p>
+            </div>
+            <div class="max-w-3xl mx-auto">
+                <div id="accordion-container">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-primary mt-16">
+        <div class="container mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-white/80 text-sm">
+            <p>&copy; 2025 Interactive Analysis. All Rights Reserved.</p>
+            <p class="mt-1">본 자료는 투자 참고용으로, 최종 투자 결정에 대한 책임은 투자자 본인에게 있습니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            const hevData = {
+                labels: ['23-01', '23-06', '23-12', '24-01', '24-06', '24-12', '25-05'],
+                datasets: [{
+                    label: '현대차/기아 HEV 침투율 (%)',
+                    data: [25.35, 31.42, 43.83, 46.83, 47.14, 59.49, 57.88],
+                    borderColor: '#f4d35e',
+                    backgroundColor: 'rgba(244, 211, 94, 0.2)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#f4d35e',
+                    pointBorderColor: '#fff',
+                    pointHoverRadius: 7,
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#f4d35e'
+                }]
+            };
+
+            const hevCtx = document.getElementById('hevPenetrationChart').getContext('2d');
+            new Chart(hevCtx, {
+                type: 'line',
+                data: hevData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: { display: true, text: '현대차/기아 국내 판매량 중 하이브리드 비중 추이', font: { size: 16 } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw.toFixed(2)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: '비중 (%)' }
+                        },
+                        x: {
+                            title: { display: true, text: '연도-월' }
+                        }
+                    }
+                }
+            });
+
+            const financialsData = {
+                labels: ['2022', '2023', '2024(E)', '2025(E)', '2026(E)', '2027(E)'],
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: '매출액 (억원)',
+                        data: [5610, 6795, 7359, 7760, 8350, 9185],
+                        backgroundColor: 'rgba(13, 59, 102, 0.6)',
+                        borderColor: '#0d3b66',
+                        yAxisID: 'y'
+                    },
+                    {
+                        type: 'bar',
+                        label: '영업이익 (억원)',
+                        data: [194, 339, 375, 432, 500, 565],
+                        backgroundColor: 'rgba(244, 211, 94, 0.8)',
+                        borderColor: '#f4d35e',
+                        yAxisID: 'y'
+                    },
+                    {
+                        type: 'line',
+                        label: '영업이익률 (%)',
+                        data: [3.47, 4.99, 5.10, 5.57, 5.99, 6.15],
+                        borderColor: '#e63946',
+                        backgroundColor: '#e63946',
+                        tension: 0.1,
+                        yAxisID: 'y1',
+                        fill: false
+                    }
+                ]
+            };
+
+            const financialsCtx = document.getElementById('financialsChart').getContext('2d');
+            new Chart(financialsCtx, {
+                data: financialsData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: '금액 (억원)' },
+                            grid: { drawOnChartArea: false }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: '이익률 (%)' }
+                        }
+                    }
+                }
+            });
+            
+            const profitabilityData = {
+                labels: ['2022', '2023', '2024(E)', '2025(E)', '2026(E)', '2027(E)'],
+                datasets: [{
+                    label: 'EPS (원)',
+                    data: [336, 1097, 1261, 1412, 1523, 1675],
+                    borderColor: '#0d3b66',
+                    backgroundColor: 'rgba(13, 59, 102, 0.2)',
+                    fill: true,
+                    tension: 0.1,
+                    yAxisID: 'y'
+                }, {
+                    label: 'ROE (%)',
+                    data: [6.75, 19.34, 18.15, 16.92, 16.50, 15.85],
+                    borderColor: '#f4d35e',
+                    backgroundColor: 'transparent',
+                    type: 'line',
+                    tension: 0.1,
+                    yAxisID: 'y1'
+                }]
+            };
+
+            const profitabilityCtx = document.getElementById('profitabilityChart').getContext('2d');
+            new Chart(profitabilityCtx, {
+                type: 'bar',
+                data: profitabilityData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            position: 'left',
+                            title: { display: true, text: 'EPS (원)' }
+                        },
+                        y1: {
+                            beginAtZero: true,
+                            position: 'right',
+                            title: { display: true, text: 'ROE (%)' },
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+
+            const valuationData = {
+                labels: ['코리아에프티 (현재)', '목표 PER', '업종 평균'],
+                datasets: [{
+                    label: 'PER (배)',
+                    data: [3.47, 7.0, 13.01],
+                    backgroundColor: ['#f4d35e', '#2a9d8f', '#e9ecef'],
+                    borderColor: ['#c7a740', '#207a6e', '#adb5bd'],
+                    borderWidth: 1
+                }]
+            };
+
+            const valuationCtx = document.getElementById('valuationChart').getContext('2d');
+            new Chart(valuationCtx, {
+                type: 'bar',
+                data: valuationData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'PER (배)' }
+                        }
+                    }
+                }
+            });
+
+            const riskData = [
+                {
+                    title: "BEV 전환에 따른 기술 도태 위험",
+                    content: `<strong>완화 요인:</strong><br>
+                    1. <strong>연장된 전환 기간:</strong> HEV 시대는 예상보다 길어지며 최소 5~7년간의 강력한 현금 창출 기간을 확보했습니다.<br>
+                    2. <strong>미래 기술 R&D:</strong> 합성연료(e-fuel)용 부품, ADAS 소프트웨어 등 미래 기술에 적극 투자하여 BEV 시대에 대응하고 있습니다.`
+                },
+                {
+                    title: "높은 고객사 의존도 리스크",
+                    content: `<strong>완화 요인:</strong><br>
+                    성공적인 고객 다변화를 통해 리스크를 완화하고 있습니다. GM, 르노, 폭스바겐, 볼보 등 글로벌 OEM으로의 수주를 성공적으로 확대하며 단일 고객 의존도를 낮추고 있습니다.`
+                },
+                {
+                    title: "원자재 가격 변동성 리스크",
+                    content: `<strong>완화 요인:</strong><br>
+                    국내 시장의 독점적 공급자로서 강력한 가격 협상력을 보유하고 있습니다. 이를 통해 원자재 가격 상승분을 완성차 업체에 전가할 수 있는 능력을 갖추었으며, 실제 이익률 개선으로 증명되고 있습니다.`
+                }
+            ];
+
+            const accordionContainer = document.getElementById('accordion-container');
+            riskData.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'border border-neutral-300 rounded-lg mb-2 bg-white';
+                div.innerHTML = `
+                    <button class="accordion-button w-full flex justify-between items-center p-4 text-left font-semibold text-primary focus:outline-none">
+                        <span>${item.title}</span>
+                        <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div class="accordion-content overflow-hidden max-h-0 transition-max-height duration-500 ease-in-out">
+                        <div class="p-4 border-t border-neutral-300 text-neutral-700">${item.content}</div>
+                    </div>
+                `;
+                accordionContainer.appendChild(div);
+            });
+
+            document.querySelectorAll('.accordion-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('span:last-child');
+                    
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50대를 위한 은퇴 준비 인포그래픽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 640px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #118AB2, #06D6A0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-[#073B4C] mb-2">결정적 10년: 50대 미래 설계</h1>
+            <p class="text-lg md:text-xl text-gray-600">100세 시대를 항해하는 당신을 위한 필수 트렌드와 전략</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <section id="new-reality" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#073B4C] mb-4 text-center">새로운 현실: 길어진 노후, 달라진 경제</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">기대수명은 늘고 경제 성장은 둔화되면서 과거의 은퇴 공식은 더 이상 유효하지 않습니다. 이제 50대는 수동적인 자산 보존을 넘어, 적극적으로 자산을 관리하고 성장시켜야 하는 결정적인 시기입니다.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                    <div class="bg-[#118AB2] text-white p-6 rounded-lg">
+                        <p class="text-2xl font-bold">2070년 예상 기대수명</p>
+                        <p class="text-6xl font-black">91.5<span class="text-3xl">세</span></p>
+                        <p class="text-sm mt-2">(남성 90세, 여성 93세)</p>
+                    </div>
+                    <div class="bg-[#FF6B6B] text-white p-6 rounded-lg">
+                        <p class="text-2xl font-bold">은퇴 후 예상 기간</p>
+                        <p class="text-6xl font-black">30~40<span class="text-3xl">년</span></p>
+                        <p class="text-sm mt-2">직장 생활만큼 길어진 노후</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="financial" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#073B4C] mb-4 text-center">금융 전략: 견고한 5층 연금탑 구축</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">단일 소득원에 의존하는 시대는 끝났습니다. 여러 소득원을 층층이 쌓아 올려 어떤 경제 상황에서도 흔들리지 않는 안정적인 현금 흐름을 만드는 것이 핵심입니다.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <div class="w-full">
+                        <h3 class="text-xl font-bold text-center mb-4">다층 소득 '5층 연금탑' 모델</h3>
+                        <div class="flex flex-col items-center space-y-2">
+                            <div class="w-full md:w-5/6 bg-[#06D6A0] text-white text-center p-3 rounded-t-lg shadow">
+                                <p class="font-bold">5층: 추가 소득원</p>
+                                <p class="text-sm">배당주 투자, 수익형 부동산</p>
+                            </div>
+                            <div class="w-full md:w-5/6 bg-[#118AB2] text-white text-center p-3 shadow">
+                                <p class="font-bold">4층: 주택연금</p>
+                                <p class="text-sm">거주 주택을 활용한 현금 흐름</p>
+                            </div>
+                            <div class="w-full md:w-5/6 bg-[#FFD166] text-gray-800 text-center p-3 shadow">
+                                <p class="font-bold">3층: 개인연금</p>
+                                <p class="text-sm">세액공제 혜택, 자발적 노후 준비</p>
+                            </div>
+                            <div class="w-full md:w-5/6 bg-[#FF6B6B] text-white text-center p-3 shadow">
+                                <p class="font-bold">2층: 퇴직연금 (IRP)</p>
+                                <p class="text-sm">핵심 노후 자금, 성장 엔진</p>
+                            </div>
+                            <div class="w-full md:w-5/6 bg-[#073B4C] text-white text-center p-3 rounded-b-lg shadow">
+                                <p class="font-bold">1층: 국민연금</p>
+                                <p class="text-sm">기초 생활 보장을 위한 최소 안전망</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full">
+                         <h3 class="text-xl font-bold text-center mb-4">2025년 국민연금 개혁: 보험료율 변화</h3>
+                         <p class="text-sm text-center text-gray-600 mb-2">보험료율이 8년에 걸쳐 점진적으로 13%까지 인상됩니다. 이는 국민연금 의존도를 낮추고 사적연금 준비를 서둘러야 한다는 명확한 신호입니다.</p>
+                        <div class="chart-container h-64 sm:h-80">
+                            <canvas id="nationalPensionChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 w-full">
+                        <h3 class="text-xl font-bold text-center mt-8 mb-4">IRP/개인연금 세액공제 극대화</h3>
+                        <p class="text-sm text-center text-gray-600 mb-2">연 900만원 납입 시 소득에 따라 최대 148.5만원까지 환급 가능합니다. 이는 놓쳐서는 안 될 가장 확실한 '수익'입니다.</p>
+                        <div class="chart-container h-64 sm:h-80">
+                            <canvas id="taxCreditChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="health" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#073B4C] mb-4 text-center">건강 전략: 최고의 자산에 투자하라</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">은퇴 후 건강 악화는 어떤 금융 위기보다 빠르게 자산을 고갈시킵니다. 50대는 만성질환을 예방하고 근력을 유지하는 데 집중해야 할 때입니다.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-center mb-4">운동의 새로운 공식: 근력 70%, 유산소 30%</h3>
+                        <p class="text-sm text-center text-gray-600 mb-2">체중 감량보다 '근육 유지'와 '낙상 방지'가 중요합니다. 근육은 혈당을 조절하고 신진대사를 높이는 핵심 기관입니다.</p>
+                        <div class="chart-container h-64 sm:h-80">
+                            <canvas id="exerciseRatioChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-center mb-4">50대 만성질환 관리</h3>
+                        <p class="text-sm text-center text-gray-600 mb-2">고혈압, 당뇨, 이상지질혈증은 식단과 운동으로 충분히 예방하고 관리할 수 있습니다. 건강은 가장 확실한 노후 대비입니다.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <div class="w-1/3 text-right pr-4 font-bold">고혈압</div>
+                                <div class="w-2/3 bg-gray-200 rounded-full">
+                                    <div class="bg-[#FF6B6B] text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style="width: 45%">45%</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-1/3 text-right pr-4 font-bold">이상지질혈증</div>
+                                <div class="w-2/3 bg-gray-200 rounded-full">
+                                    <div class="bg-[#FFD166] text-xs font-medium text-gray-800 text-center p-1 leading-none rounded-full" style="width: 40%">40%</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-1/3 text-right pr-4 font-bold">당뇨병</div>
+                                <div class="w-2/3 bg-gray-200 rounded-full">
+                                    <div class="bg-[#118AB2] text-xs font-medium text-blue-100 text-center p-1 leading-none rounded-full" style="width: 20%">20%</div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-center text-gray-500 mt-2">50대 유병률 기준 (질병관리청 데이터 기반)</p>
+                        </div>
+                    </div>
+                     <div class="md:col-span-2 mt-8">
+                        <h3 class="text-xl font-bold text-center mb-4">장수를 위한 '무지개 식단'</h3>
+                        <div class="flex flex-wrap justify-center gap-4 text-center">
+                            <div class="p-4 bg-red-100 rounded-lg w-32">
+                                <span class="text-3xl">🍎</span>
+                                <p class="font-bold mt-1">빨강</p>
+                                <p class="text-xs">혈관 건강</p>
+                            </div>
+                             <div class="p-4 bg-orange-100 rounded-lg w-32">
+                                <span class="text-3xl">🍊</span>
+                                <p class="font-bold mt-1">주황</p>
+                                <p class="text-xs">면역력 강화</p>
+                            </div>
+                             <div class="p-4 bg-yellow-100 rounded-lg w-32">
+                                <span class="text-3xl">🍋</span>
+                                <p class="font-bold mt-1">노랑</p>
+                                <p class="text-xs">항산화 작용</p>
+                            </div>
+                             <div class="p-4 bg-green-100 rounded-lg w-32">
+                                <span class="text-3xl">🥦</span>
+                                <p class="font-bold mt-1">초록</p>
+                                <p class="text-xs">해독 작용</p>
+                            </div>
+                             <div class="p-4 bg-purple-100 rounded-lg w-32">
+                                <span class="text-3xl">🍇</span>
+                                <p class="font-bold mt-1">보라</p>
+                                <p class="text-xs">노화 방지</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="second-act" class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-[#073B4C] mb-4 text-center">인생 2막: 새로운 시작을 위한 준비</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">은퇴는 끝이 아닌 새로운 전환점입니다. 50대 동안 미리 준비하여 수십 년의 경험을 살린 '앙코르 커리어'를 시작하고, 정부 지원 프로그램을 적극 활용하세요.</p>
+                
+                <div class="relative border-l-4 border-[#06D6A0] ml-4 md:ml-0 md:mx-auto md:w-4/5 lg:w-3/5">
+                    <div class="mb-8 pl-8 relative">
+                        <div class="absolute -left-4 top-1 w-6 h-6 bg-[#06D6A0] rounded-full border-4 border-white"></div>
+                        <h3 class="font-bold text-lg text-[#118AB2]">50-52세: 점검과 통합</h3>
+                        <p class="text-sm">흩어진 연금 계좌를 수수료 낮은 IRP로 통합하고, 종합 건강검진으로 건강 상태를 정밀 진단하세요.</p>
+                    </div>
+                    <div class="mb-8 pl-8 relative">
+                         <div class="absolute -left-4 top-1 w-6 h-6 bg-[#06D6A0] rounded-full border-4 border-white"></div>
+                        <h3 class="font-bold text-lg text-[#118AB2]">53-55세: 학습과 계획</h3>
+                        <p class="text-sm">인생 2막을 위한 새로운 기술(Re-skilling)을 배우고, 55세부터 가능한 연금 인출 전략을 수립하세요. (단, 인출은 최대한 늦추는 것이 유리합니다.)</p>
+                    </div>
+                    <div class="mb-8 pl-8 relative">
+                         <div class="absolute -left-4 top-1 w-6 h-6 bg-[#06D6A0] rounded-full border-4 border-white"></div>
+                        <h3 class="font-bold text-lg text-[#118AB2]">56-58세: 자산 재배치</h3>
+                        <p class="text-sm">자녀 독립 후 주택 규모를 줄이거나(다운사이징), 부동산을 월세 수입이 나오는 수익형 자산으로 전환하는 계획을 구체화하세요.</p>
+                    </div>
+                    <div class="pl-8 relative">
+                         <div class="absolute -left-4 top-1 w-6 h-6 bg-[#06D6A0] rounded-full border-4 border-white"></div>
+                        <h3 class="font-bold text-lg text-[#118AB2]">59-60세: 전환 실행</h3>
+                        <p class="text-sm">앙코르 커리어로의 전환을 실행하고, 서울시50플러스재단 등 정부 지원 기관의 일자리 매칭 프로그램을 적극 활용하세요.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 py-6 border-t">
+            <p class="text-sm text-gray-500">&copy; 2025 은퇴설계연구소. 본 정보는 일반적인 정보 제공을 목적으로 하며, 투자나 의학적 조언을 대체할 수 없습니다.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+
+        const wrapLabel = (label) => {
+            const maxLength = 16;
+            if (label.length <= maxLength) return label;
+            
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            words.forEach(word => {
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const chartColors = {
+            navy: '#073B4C',
+            blue: '#118AB2',
+            green: '#06D6A0',
+            yellow: '#FFD166',
+            red: '#FF6B6B'
+        };
+
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#e5e7eb'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('nationalPensionChart'), {
+            type: 'line',
+            data: {
+                labels: ['2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032'],
+                datasets: [{
+                    label: '국민연금 보험료율 (%)',
+                    data: [9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13],
+                    borderColor: chartColors.blue,
+                    backgroundColor: 'rgba(17, 138, 178, 0.1)',
+                    fill: true,
+                    tension: 0.1
+                }]
+            },
+            options: { ...defaultChartOptions }
+        });
+
+        new Chart(document.getElementById('taxCreditChart'), {
+            type: 'bar',
+            data: {
+                labels: ['총급여 5,500만원 이하', '총급여 5,500만원 초과'],
+                datasets: [{
+                    label: '최대 환급액 (원)',
+                    data: [1485000, 1188000],
+                    backgroundColor: [chartColors.green, chartColors.yellow],
+                    borderColor: [chartColors.green, chartColors.yellow],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                ...defaultChartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('ko-KR') + '원';
+                            }
+                        }
+                    },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('exerciseRatioChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['근력 운동', '유산소 운동'],
+                datasets: [{
+                    label: '운동 비율',
+                    data: [70, 30],
+                    backgroundColor: [chartColors.red, chartColors.blue],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -598,6 +598,35 @@
             transform: translateY(0);
         }
 
+        /* 카테고리 필터 버튼 스타일 */
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--lightest-navy);
+            color: var(--light-slate);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: var(--fz-xs);
+            font-family: var(--font-sans);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .filter-btn.active-filter {
+            background: rgba(100, 255, 218, 0.1);
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        /* 숨겨진 포스트 카드 */
+        .project-inner.hidden-post {
+            display: none;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -658,6 +687,7 @@
                 <ol class="nav-list">
                     <li><a href="#about">About</a></li>
                     <li><a href="#projects">Projects</a></li>
+                    <li><a href="#posts">Posts</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ol>
             </nav>
@@ -931,9 +961,189 @@
                     </div>
                 </section>
 
+                <!-- 콘텐츠 포스트 목록 섹션 -->
+                <section id="posts" class="section">
+                    <h2 class="section-header">
+                        <span>03.</span>Latest Posts
+                    </h2>
+
+                    <!-- 카테고리 필터 버튼 -->
+                    <div id="post-filters" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;">
+                        <button onclick="filterPosts('all')" class="filter-btn active-filter" data-cat="all">전체</button>
+                        <button onclick="filterPosts('invest')" class="filter-btn" data-cat="invest">💰 가치투자</button>
+                        <button onclick="filterPosts('ai')" class="filter-btn" data-cat="ai">🤖 AI·데이터</button>
+                        <button onclick="filterPosts('retire')" class="filter-btn" data-cat="retire">🏖️ 노후준비</button>
+                        <button onclick="filterPosts('health')" class="filter-btn" data-cat="health">🏃 건강</button>
+                        <button onclick="filterPosts('estate')" class="filter-btn" data-cat="estate">🏠 부동산</button>
+                    </div>
+
+                    <div class="projects-grid" id="posts-grid">
+
+                        <!-- 가치투자 카드들 -->
+                        <div class="project-inner fade-in" data-cat="invest">
+                            <header>
+                                <div class="project-top">
+                                    <div class="folder" style="font-size:1.8rem;">💰</div>
+                                    <div class="project-links">
+                                        <a href="KFTC_VAULE_INVESTING.html" target="_blank" rel="noopener noreferrer">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15,3 21,3 21,9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <h3 class="project-title">코리아에프티(12410) 가치분석</h3>
+                                <div class="project-description">HEV(하이브리드차) 시장 성장 수혜주. 재무분석·밸류에이션·리스크를 인터랙티브 차트로 분석합니다.</div>
+                            </header>
+                            <footer>
+                                <ul class="project-tech-list">
+                                    <li>가치투자</li>
+                                    <li>HEV 수혜주</li>
+                                    <li>재무분석</li>
+                                </ul>
+                            </footer>
+                        </div>
+
+                        <div class="project-inner fade-in" data-cat="invest">
+                            <header>
+                                <div class="project-top">
+                                    <div class="folder" style="font-size:1.8rem;">💰</div>
+                                    <div class="project-links">
+                                        <a href="sic_eusu_value.html" target="_blank" rel="noopener noreferrer">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15,3 21,3 21,9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <h3 class="project-title">유수홀딩스(000700) SOTP 가치분석</h3>
+                                <div class="project-description">IT·물류·자산 사업부별 SOTP 분석. 할인율 슬라이더로 실시간 가치를 직접 계산해보세요.</div>
+                            </header>
+                            <footer>
+                                <ul class="project-tech-list">
+                                    <li>가치투자</li>
+                                    <li>SOTP</li>
+                                    <li>홀딩스</li>
+                                </ul>
+                            </footer>
+                        </div>
+
+                        <div class="project-inner fade-in" data-cat="invest">
+                            <header>
+                                <div class="project-top">
+                                    <div class="folder" style="font-size:1.8rem;">💰</div>
+                                    <div class="project-links">
+                                        <a href="sic_candidate_202508.html" target="_blank" rel="noopener noreferrer">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15,3 21,3 21,9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <h3 class="project-title">52주 신저가 가치투자 후보 (2025.08)</h3>
+                                <div class="project-description">데이터 기반으로 52주 신저가 종목 중 저평가된 가치투자 후보를 선별·분석합니다.</div>
+                            </header>
+                            <footer>
+                                <ul class="project-tech-list">
+                                    <li>가치투자</li>
+                                    <li>52주 신저가</li>
+                                    <li>종목 발굴</li>
+                                </ul>
+                            </footer>
+                        </div>
+
+                        <!-- AI·데이터분석 카드 -->
+                        <div class="project-inner fade-in" data-cat="ai">
+                            <header>
+                                <div class="project-top">
+                                    <div class="folder" style="font-size:1.8rem;">🤖</div>
+                                    <div class="project-links">
+                                        <a href="GPT5vsGPT4.html" target="_blank" rel="noopener noreferrer">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15,3 21,3 21,9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <h3 class="project-title">GPT-5 vs GPT-4 비교 분석</h3>
+                                <div class="project-description">생성형 AI의 새로운 시대. GPT-5와 GPT-4의 성능·벤치마크·활용 사례를 인포그래픽으로 비교합니다.</div>
+                            </header>
+                            <footer>
+                                <ul class="project-tech-list">
+                                    <li>AI 트렌드</li>
+                                    <li>GPT-5</li>
+                                    <li>데이터분석</li>
+                                </ul>
+                            </footer>
+                        </div>
+
+                        <!-- 노후준비 카드 -->
+                        <div class="project-inner fade-in" data-cat="retire">
+                            <header>
+                                <div class="project-top">
+                                    <div class="folder" style="font-size:1.8rem;">🏖️</div>
+                                    <div class="project-links">
+                                        <a href="Infg_Rtrmnt_Prep.html" target="_blank" rel="noopener noreferrer">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15,3 21,3 21,9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <h3 class="project-title">결정적 10년: 50대 미래 설계</h3>
+                                <div class="project-description">100세 시대의 은퇴 준비 전략. 기대수명·자산관리·노후 로드맵을 데이터 인포그래픽으로 정리합니다.</div>
+                            </header>
+                            <footer>
+                                <ul class="project-tech-list">
+                                    <li>노후준비</li>
+                                    <li>은퇴설계</li>
+                                    <li>50대</li>
+                                </ul>
+                            </footer>
+                        </div>
+
+                        <!-- 건강 카드 -->
+                        <div class="project-inner fade-in" data-cat="health">
+                            <header>
+                                <div class="project-top">
+                                    <div class="folder" style="font-size:1.8rem;">🏃</div>
+                                    <div class="project-links">
+                                        <a href="greekyogert.html" target="_blank" rel="noopener noreferrer">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15,3 21,3 21,9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <h3 class="project-title">그릭요거트 완벽 가이드</h3>
+                                <div class="project-description">건강한 노후를 위한 식단. 그릭요거트 영양성분·효능·브랜드 비교를 데이터로 정리한 인포그래픽입니다.</div>
+                            </header>
+                            <footer>
+                                <ul class="project-tech-list">
+                                    <li>건강</li>
+                                    <li>식단</li>
+                                    <li>인포그래픽</li>
+                                </ul>
+                            </footer>
+                        </div>
+
+                        <!-- 부동산 카드 -->
+                        <div class="project-inner fade-in" data-cat="estate">
+                            <header>
+                                <div class="project-top">
+                                    <div class="folder" style="font-size:1.8rem;">🏠</div>
+                                    <div class="project-links">
+                                        <a href="onbid_viral1.html" target="_blank" rel="noopener noreferrer">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15,3 21,3 21,9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <h3 class="project-title">이런 것도 온비드에서 팔아요?</h3>
+                                <div class="project-description">공매(온비드)의 숨겨진 세계. 의외의 물건들을 소개하는 바이럴 콘텐츠입니다.</div>
+                            </header>
+                            <footer>
+                                <ul class="project-tech-list">
+                                    <li>부동산</li>
+                                    <li>공매</li>
+                                    <li>온비드</li>
+                                </ul>
+                            </footer>
+                        </div>
+
+                    </div>
+                </section>
+
                 <section id="contact" class="section">
                     <h2 class="section-header">
-                        <span>03.</span>What's Next?
+                        <span>04.</span>What's Next?
                     </h2>
                     <div class="contact-content">
                         <p class="overline">Get In Touch</p>
@@ -982,6 +1192,24 @@
                 }
             });
         });
+
+        // 카테고리 필터 기능
+        function filterPosts(cat) {
+            // 버튼 활성화 상태 업데이트
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active-filter');
+                if (btn.dataset.cat === cat) btn.classList.add('active-filter');
+            });
+
+            // 카드 필터링
+            document.querySelectorAll('#posts-grid .project-inner').forEach(card => {
+                if (cat === 'all' || card.dataset.cat === cat) {
+                    card.classList.remove('hidden-post');
+                } else {
+                    card.classList.add('hidden-post');
+                }
+            });
+        }
 
         // 네비게이션 활성 상태 관리
         const sections = document.querySelectorAll('section[id]');

@@ -26,7 +26,7 @@
 <header class="site-header" role="banner">
   <div class="nav-inner">
     <a class="nav-logo" href="#hero" aria-label="열심남 홈으로">
-      <span>열심남</span>의 노후 준비 프로젝트
+      <span>열심남<span class="brand-dot">.</span></span><small>노후 준비 프로젝트</small>
     </a>
 
     <!-- 데스크톱 메뉴 -->
@@ -34,8 +34,8 @@
       <ul class="nav-links">
         <li><a href="#datalab">데이터랩</a></li>
         <li><a href="#analysis">분석자료</a></li>
-        <li><a href="#channels">블로그·팟캐스트</a></li>
         <li><a href="#about">소개</a></li>
+        <li><a href="#channels">블로그·팟캐스트</a></li>
       </ul>
     </nav>
 
@@ -65,8 +65,8 @@
   <ul>
     <li><a href="#datalab">데이터랩</a></li>
     <li><a href="#analysis">분석자료</a></li>
-    <li><a href="#channels">블로그·팟캐스트</a></li>
     <li><a href="#about">소개</a></li>
+    <li><a href="#channels">블로그·팟캐스트</a></li>
   </ul>
 </div>
 
@@ -84,30 +84,31 @@
       <div class="hero-text">
         <span class="hero-brand">열심남의 노후 준비 프로젝트</span>
         <!-- 사이트 유일한 h1 -->
-        <h1 class="hero-h1">데이터로 이해하고,<br>꾸준히 준비하는 삶</h1>
+        <h1 class="hero-h1">데이터로 배우고,<br>내일을 준비하는<br><span>열심남</span>입니다.</h1>
         <p class="hero-body">
-          부산에 사는 열심남입니다. 데이터와 AI로 투자와 일상을 탐구하고,
-          경제적 준비·건강·삶의 방향에 대한 배움을 기록합니다.
+          부산의 데이터를 살펴보고, 투자와 건강을 공부합니다.<br>
+          더 나은 노후를 위해 직접 만들고 기록한 것들을 나눕니다.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#datalab">
-            부산 데이터랩 둘러보기
+            직접 만든 데이터랩 보기
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2.5" aria-hidden="true">
               <line x1="5" y1="12" x2="19" y2="12"/>
               <polyline points="12,5 19,12 12,19"/>
             </svg>
           </a>
-          <a class="btn btn-secondary" href="#channels">글과 팟캐스트 만나기</a>
+          <a class="btn btn-secondary" href="#about">열심남 소개 <span aria-hidden="true">↗</span></a>
         </div>
       </div>
-      <div class="hero-profile-wrap">
+      <figure class="hero-profile-wrap">
         <img class="hero-img"
              src="프로필픽사.png"
-             alt="열심남 프로필 사진"
-             width="200" height="200"
+             alt="열심남을 표현한 프로필 일러스트"
+             width="1024" height="1536"
              fetchpriority="high">
-      </div>
+        <figcaption><span>배우고, 만들고, 기록하는 사람</span><strong>부산에서, 열심남</strong></figcaption>
+      </figure>
     </div>
   </section>
 
@@ -115,10 +116,9 @@
   <section class="datalab section" id="datalab" aria-labelledby="datalab-h2">
     <div class="container">
       <span class="section-tag">부산 데이터랩</span>
-      <h2 class="section-title" id="datalab-h2">직접 탐색하는 부산 데이터</h2>
+      <h2 class="section-title" id="datalab-h2">궁금한 일상, 데이터로 들여다보기</h2>
       <p class="section-desc">
-        부산의 아파트·학교·지하철 및 스타벅스 상권 데이터를 인터랙티브 대시보드로 공개합니다.
-        궁금한 지역과 주제를 직접 살펴보세요.
+        부산의 아파트부터 스타벅스 상권까지.<br>직접 만든 네 가지 데이터랩에서 관심 있는 지역을 살펴보세요.
       </p>
 
       <div class="datalab-grid">
@@ -136,17 +136,12 @@
             <p class="datalab-desc">
               부산 아파트 실거래가와 지역별 가격 흐름을 탐색합니다.
             </p>
-            <ul class="datalab-features">
-              <li>구·동별 실거래가 조회</li>
-              <li>기간별 가격 추이 확인</li>
-              <li>지도 기반 시각화 탐색</li>
-            </ul>
             <a class="datalab-link"
                href="https://busanapt.streamlit.app/"
                target="_blank"
                rel="noopener noreferrer"
                aria-label="부산 아파트 데이터랩 대시보드 열기 (새 탭)">
-              대시보드 열기 ↗
+              데이터랩 열기 ↗
             </a>
           </div>
         </article>
@@ -164,17 +159,12 @@
             <p class="datalab-desc">
               부산 학교와 지역별 교육 관련 데이터를 탐색합니다.
             </p>
-            <ul class="datalab-features">
-              <li>구별 학교 분포 확인</li>
-              <li>학교급(초·중·고)별 현황</li>
-              <li>지도 기반 위치 탐색</li>
-            </ul>
             <a class="datalab-link"
                href="https://busanschool.streamlit.app/"
                target="_blank"
                rel="noopener noreferrer"
                aria-label="부산 학교·학군 데이터랩 대시보드 열기 (새 탭)">
-              대시보드 열기 ↗
+              데이터랩 열기 ↗
             </a>
           </div>
         </article>
@@ -192,17 +182,12 @@
             <p class="datalab-desc">
               역별 승하차와 시간대별 이용 패턴을 탐색합니다.
             </p>
-            <ul class="datalab-features">
-              <li>노선별 역 현황 조회</li>
-              <li>시간대별 이용 패턴 확인</li>
-              <li>역별 승하차 비교</li>
-            </ul>
             <a class="datalab-link"
                href="https://busansubway.streamlit.app/"
                target="_blank"
                rel="noopener noreferrer"
                aria-label="부산 지하철 데이터랩 대시보드 열기 (새 탭)">
-              대시보드 열기 ↗
+              데이터랩 열기 ↗
             </a>
           </div>
         </article>
@@ -220,17 +205,12 @@
             <p class="datalab-desc">
               스타벅스 매장 분포와 지역별 상권 입지 특성을 분석합니다.
             </p>
-            <ul class="datalab-features">
-              <li>지역별 매장 분포 현황</li>
-              <li>상권 및 매장 입지 특성 분석</li>
-              <li>지도 기반 인터랙티브 시각화</li>
-            </ul>
             <a class="datalab-link"
                href="https://starbuckskorea.streamlit.app/"
                target="_blank"
                rel="noopener noreferrer"
                aria-label="스타벅스 상권분석 보드 대시보드 열기 (새 탭)">
-              대시보드 열기 ↗
+              데이터랩 열기 ↗
             </a>
           </div>
         </article>
@@ -243,7 +223,7 @@
   <section class="analysis section" id="analysis" aria-labelledby="analysis-h2">
     <div class="container">
       <span class="section-tag">분석자료</span>
-      <h2 class="section-title" id="analysis-h2">탐구하고 기록한 분석자료</h2>
+      <h2 class="section-title" id="analysis-h2">공부한 것을, 나눌 수 있는 기록으로</h2>
       <p class="section-desc">
         가치투자·AI·노후준비·건강 주제로 직접 작성한 인터랙티브 분석과 인포그래픽입니다.
         자료별 기준 시점과 출처를 확인하고 참고하세요.
@@ -270,8 +250,27 @@
         해당 주제의 자료가 아직 없습니다.
       </p>
 
-      <!-- 자료 카드 목록 (order: 가치투자 → AI → 노후준비 → 건강 → 부동산) -->
+      <!-- 추천 자료 → 가치투자 → AI → 건강 → 부동산 순서 -->
       <div class="analysis-grid">
+        <article class="analysis-card analysis-featured fade-in" data-topic="retire">
+          <p class="featured-label">처음 오셨다면 이 글부터</p>
+          <div class="card-meta">
+            <span class="tag">노후준비</span>
+            <span class="tag-format">인포그래픽</span>
+          </div>
+          <h3 class="analysis-title">
+            <a href="Infg_Rtrmnt_Prep.html">
+              결정적 10년: 50대 미래 설계
+            </a>
+          </h3><span class="featured-arrow" aria-hidden="true">↗</span>
+          <p class="analysis-desc">
+            100세 시대 은퇴 준비의 핵심을 데이터 인포그래픽으로 정리합니다.
+            기대수명과 자산 관리 전략을 시각적으로 살펴볼 수 있습니다.
+          </p>
+          <div class="analysis-footer">
+            <span class="analysis-date">기준 시점 미확인</span>
+          </div>
+        </article>
 
         <!-- 52주 신저가 (2025.08 기준 월 확인됨) -->
         <article class="analysis-card fade-in" data-topic="invest">
@@ -353,25 +352,7 @@
           </div>
         </article>
 
-        <!-- 50대 미래 설계 -->
-        <article class="analysis-card fade-in" data-topic="retire">
-          <div class="card-meta">
-            <span class="tag">노후준비</span>
-            <span class="tag-format">인포그래픽</span>
-          </div>
-          <h3 class="analysis-title">
-            <a href="Infg_Rtrmnt_Prep.html">
-              결정적 10년: 50대 미래 설계
-            </a>
-          </h3>
-          <p class="analysis-desc">
-            100세 시대 은퇴 준비의 핵심을 데이터 인포그래픽으로 정리합니다.
-            기대수명과 자산 관리 전략을 시각적으로 살펴볼 수 있습니다.
-          </p>
-          <div class="analysis-footer">
-            <span class="analysis-date">기준 시점 미확인</span>
-          </div>
-        </article>
+
 
         <!-- 그릭요거트 -->
         <article class="analysis-card fade-in" data-topic="health">
@@ -417,94 +398,18 @@
     </div>
   </section>
 
-  <!-- ④ 블로그·팟캐스트 -->
-  <section class="channels section" id="channels" aria-labelledby="channels-h2">
-    <div class="container">
-      <span class="section-tag">블로그·팟캐스트</span>
-      <h2 class="section-title" id="channels-h2">글과 오디오로 나누는 이야기</h2>
-      <p class="section-desc">
-        네이버 블로그와 팟캐스트가 주로 업데이트됩니다.
-        티스토리와 브런치에서는 다른 주제의 글을 만날 수 있습니다.
-      </p>
-
-      <div class="channels-grid">
-
-        <div class="channel-card fade-in">
-          <div class="channel-icon" aria-hidden="true">📝</div>
-          <p class="channel-type">블로그 · 글</p>
-          <h3 class="channel-name">노후 준비 프로젝트 — 네이버 블로그</h3>
-          <p class="channel-desc">
-            노후준비·투자·건강 관련 정보를 기록하는 주요 블로그입니다.
-          </p>
-          <a class="channel-link"
-             href="https://blog.naver.com/uuincity"
-             target="_blank" rel="noopener noreferrer"
-             aria-label="네이버 블로그 열기 (새 탭)">
-            블로그 보기 ↗
-          </a>
-        </div>
-
-        <div class="channel-card fade-in">
-          <div class="channel-icon" aria-hidden="true">🎙️</div>
-          <p class="channel-type">팟캐스트 · 오디오</p>
-          <h3 class="channel-name">노후준비 이야기 — 팟빵</h3>
-          <p class="channel-desc">
-            건강과 투자에 대한 이야기를 오디오로 전달하는 팟캐스트 채널입니다.
-          </p>
-          <a class="channel-link"
-             href="https://www.podbbang.com/channels/1792927"
-             target="_blank" rel="noopener noreferrer"
-             aria-label="팟빵 팟캐스트 채널 열기 (새 탭)">
-            팟캐스트 듣기 ↗
-          </a>
-        </div>
-
-        <div class="channel-card fade-in">
-          <div class="channel-icon" aria-hidden="true">📊</div>
-          <p class="channel-type">블로그 · 분석·투자</p>
-          <h3 class="channel-name">데이터분석과 가치투자 — 티스토리</h3>
-          <p class="channel-desc">
-            데이터 기반의 가치투자 방법론을 다루는 블로그입니다.
-          </p>
-          <a class="channel-link"
-             href="https://uincity.tistory.com/"
-             target="_blank" rel="noopener noreferrer"
-             aria-label="티스토리 블로그 열기 (새 탭)">
-            블로그 보기 ↗
-          </a>
-        </div>
-
-        <div class="channel-card fade-in">
-          <div class="channel-icon" aria-hidden="true">✍️</div>
-          <p class="channel-type">브런치 · 에세이·서평</p>
-          <h3 class="channel-name">클래식·가치투자·서평 — 브런치</h3>
-          <p class="channel-desc">
-            클래식·가치투자·독서 서평을 다루는 브런치 채널입니다.
-          </p>
-          <a class="channel-link"
-             href="https://brunch.co.kr/@uincity"
-             target="_blank" rel="noopener noreferrer"
-             aria-label="브런치 채널 열기 (새 탭)">
-            브런치 보기 ↗
-          </a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ⑤ 소개와 활동 -->
+  <!-- ④ 소개와 활동 -->
   <section class="about section" id="about" aria-labelledby="about-h2">
     <div class="container">
       <span class="section-tag">소개</span>
-      <h2 class="section-title" id="about-h2">열심남 소개와 활동</h2>
+      <h2 class="section-title" id="about-h2">더 나은 내일을 준비하는 방법</h2>
 
       <div class="about-inner">
         <!-- 프로필 -->
         <div class="about-profile">
           <img class="about-img"
                src="프로필픽사.png"
-               alt="열심남 프로필 사진"
+               alt="열심남을 표현한 프로필 일러스트"
                width="130" height="130" loading="lazy">
           <p class="about-name">열심남</p>
           <p class="about-loc">📍 부산</p>
@@ -513,7 +418,7 @@
 
         <!-- 소개 텍스트 -->
         <div class="about-text">
-          <h3>어떤 사람인가요?</h3>
+          <h3>꾸준히 배우고, 직접 해보고, 함께 나눕니다.</h3>
           <p>
             부산에서 데이터분석과 AI 활용에 관심을 갖고 공부하고 있습니다.
             가치투자·부동산 투자·독서·건강 관리를 통해 경제적 준비와
@@ -569,6 +474,83 @@
 
     </div>
   </section>
+
+  <!-- ⑤ 블로그·팟캐스트 -->
+  <section class="channels section" id="channels" aria-labelledby="channels-h2">
+    <div class="container">
+      <span class="section-tag">블로그·팟캐스트</span>
+      <h2 class="section-title" id="channels-h2">글과 오디오로 나누는 이야기</h2>
+      <p class="section-desc">
+        투자와 건강에 관한 기록부터 책과 음악 이야기까지.
+        편한 방식으로 열심남의 이야기를 만나보세요.
+      </p>
+
+      <div class="channels-grid">
+
+        <div class="channel-card fade-in">
+          <div class="channel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6a3 3 0 0 1 3 3v14a4 4 0 0 0-4-3H4z"/><path d="M13 7a3 3 0 0 1 3-3h4v14h-3a4 4 0 0 0-4 3"/></svg></div>
+          <p class="channel-type">블로그 · 글</p>
+          <h3 class="channel-name">노후 준비 프로젝트 — 네이버 블로그</h3>
+          <p class="channel-desc">
+            노후준비·투자·건강 관련 정보를 기록하는 주요 블로그입니다.
+          </p>
+          <a class="channel-link"
+             href="https://blog.naver.com/uuincity"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="네이버 블로그 열기 (새 탭)">
+            블로그 보기 ↗
+          </a>
+        </div>
+
+        <div class="channel-card fade-in">
+          <div class="channel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/></svg></div>
+          <p class="channel-type">팟캐스트 · 오디오</p>
+          <h3 class="channel-name">노후준비 이야기 — 팟빵</h3>
+          <p class="channel-desc">
+            건강과 투자에 대한 이야기를 오디오로 전달하는 팟캐스트 채널입니다.
+          </p>
+          <a class="channel-link"
+             href="https://www.podbbang.com/channels/1792927"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="팟빵 팟캐스트 채널 열기 (새 탭)">
+            팟캐스트 듣기 ↗
+          </a>
+        </div>
+
+        <div class="channel-card fade-in">
+          <div class="channel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v17h17M8 15v-4M13 15V6M18 15V9"/></svg></div>
+          <p class="channel-type">블로그 · 분석·투자</p>
+          <h3 class="channel-name">데이터분석과 가치투자 — 티스토리</h3>
+          <p class="channel-desc">
+            데이터 기반의 가치투자 방법론을 다루는 블로그입니다.
+          </p>
+          <a class="channel-link"
+             href="https://uincity.tistory.com/"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="티스토리 블로그 열기 (새 탭)">
+            블로그 보기 ↗
+          </a>
+        </div>
+
+        <div class="channel-card fade-in">
+          <div class="channel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m4 20 4-1L20 7l-3-3L5 16zM14 7l3 3M12 20h8"/></svg></div>
+          <p class="channel-type">브런치 · 에세이·서평</p>
+          <h3 class="channel-name">클래식·가치투자·서평 — 브런치</h3>
+          <p class="channel-desc">
+            클래식·가치투자·독서 서평을 다루는 브런치 채널입니다.
+          </p>
+          <a class="channel-link"
+             href="https://brunch.co.kr/@uincity"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="브런치 채널 열기 (새 탭)">
+            브런치 보기 ↗
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
 
 </main>
 

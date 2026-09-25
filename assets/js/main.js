@@ -15,6 +15,7 @@
   function closeMenu() {
     if (!toggle || !menu) return;
     toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', '메뉴 열기');
     menu.classList.remove('is-open');
   }
 
@@ -22,6 +23,7 @@
     toggle.addEventListener('click', function () {
       var open = this.getAttribute('aria-expanded') === 'true';
       this.setAttribute('aria-expanded', String(!open));
+      this.setAttribute('aria-label', open ? '메뉴 열기' : '메뉴 닫기');
       menu.classList.toggle('is-open', !open);
       if (!open) {
         var first = menu.querySelector('a');
@@ -48,6 +50,9 @@
           !menu.contains(e.target) && !toggle.contains(e.target)) {
         closeMenu();
       }
+    });
+    window.matchMedia('(min-width: 768px)').addEventListener('change', function (e) {
+      if (e.matches) closeMenu();
     });
   }
 
@@ -98,7 +103,7 @@
       var target = document.querySelector(href);
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
         /* 접근성: 포커스 이동 */
         if (!target.getAttribute('tabindex')) target.setAttribute('tabindex', '-1');
         target.focus({ preventScroll: true });

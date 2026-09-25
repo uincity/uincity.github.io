@@ -1,4 +1,4 @@
-﻿# 열심남 개인 브랜딩 사이트
+# 열심남 개인 브랜딩 사이트
 
 > **배포 주소**: https://uincity.github.io/  
 > **저장소**: https://github.com/uincity/uincity.github.io  
@@ -17,7 +17,8 @@ uincity.github.io/
 │   └── img/                    ← 데이터랩 SVG 썸네일
 │       ├── datalab-apartment.svg
 │       ├── datalab-school.svg
-│       └── datalab-subway.svg
+│       ├── datalab-subway.svg
+│       └── datalab-starbucks.svg
 ├── 프로필픽사.png               ← 프로필 이미지
 ├── KFTC_VAULE_INVESTING.html
 ├── sic_eusu_value.html

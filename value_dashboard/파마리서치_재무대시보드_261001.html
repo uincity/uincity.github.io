@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>파마리서치 재무제표 분석 대시보드</title>
+  <meta name="description" content="파마리서치 분기별 재무제표 분석 대시보드"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0a0f1e; --card:rgba(255,255,255,.04); --card-h:rgba(255,255,255,.07);
+      --border:rgba(255,255,255,.08); --border-h:rgba(100,180,255,.3);
+      --txt:#e8f0fe; --txt2:#8fa8cc; --muted:#4a6080;
+      --blue:#4488ff; --orange:#ff7833; --green:#44cc88;
+      --red:#ff4466; --yellow:#ffcc44; --purple:#aa66ff;
+      --radius:16px; --shadow:0 8px 32px rgba(0,0,0,.4);
+    }
+    body { font-family:'Noto Sans KR','Inter',sans-serif; background:var(--bg); color:var(--txt); overflow-x:hidden; }
+    body::before {
+      content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        radial-gradient(ellipse 800px 600px at 20% 20%,rgba(68,136,255,.06) 0%,transparent 70%),
+        radial-gradient(ellipse 600px 800px at 80% 80%,rgba(170,102,255,.05) 0%,transparent 70%);
+    }
+    header { position:relative; z-index:10; padding:36px 40px 20px;
+             border-bottom:1px solid var(--border); backdrop-filter:blur(20px); }
+    .back-nav { max-width:1600px; margin:0 auto 20px; }
+    .back-link { display:inline-flex; align-items:center; min-height:40px;
+                 padding:8px 14px; border:1px solid var(--border); border-radius:8px;
+                 color:var(--txt2); font-size:13px; font-weight:600; text-decoration:none; }
+    .back-link:hover, .back-link:focus-visible { color:var(--txt); border-color:var(--border-h);
+                                                   background:var(--card-h); }
+    .back-link:focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
+    .hi { max-width:1600px; margin:0 auto; display:flex; align-items:flex-end;
+          justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .badge { display:inline-flex; align-items:center; gap:6px;
+             background:rgba(68,136,255,.15); border:1px solid rgba(68,136,255,.3);
+             border-radius:50px; padding:3px 12px; font-size:11px; color:var(--blue);
+             font-weight:600; letter-spacing:1px; margin-bottom:8px; }
+    h1 { font-size:clamp(1.5rem,3vw,2.2rem); font-weight:700; line-height:1.2; margin-bottom:6px;
+         background:linear-gradient(135deg,#e8f0fe,var(--blue),var(--purple));
+         -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .meta { font-size:12px; color:var(--txt2); }
+    .rbadge { background:rgba(68,204,136,.1); border:1px solid rgba(68,204,136,.2);
+              border-radius:8px; padding:7px 14px; font-size:12px; color:var(--green); white-space:nowrap; }
+    .kw { position:relative; z-index:5; padding:24px 40px; max-width:1600px; margin:0 auto; }
+    .kg { display:grid; grid-template-columns:repeat(auto-fit,minmax(175px,1fr)); gap:14px; }
+    .kc { background:var(--card); border:1px solid var(--border); border-radius:12px;
+          padding:18px; transition:all .3s ease; cursor:default; animation:fadeUp .5s ease both; }
+    .kc:hover { background:var(--card-h); border-color:var(--border-h); transform:translateY(-2px); box-shadow:var(--shadow); }
+    .kl { font-size:10px; color:var(--muted); font-weight:600; letter-spacing:.5px; text-transform:uppercase; margin-bottom:6px; }
+    .kv { font-size:1.4rem; font-weight:700; font-family:'Inter',sans-serif; margin-bottom:3px; }
+    .ks { font-size:10px; color:var(--txt2); }
+    .pos{color:var(--green)} .neg{color:var(--red)} .neu{color:var(--blue)} .warn{color:var(--yellow)}
+    .notice { position:relative; z-index:5; max-width:1520px; margin:18px auto 0; padding:0 40px; }
+    .notice-box { background:rgba(255,204,68,.08); border:1px solid rgba(255,204,68,.25);
+                  border-radius:10px; padding:12px 16px; color:var(--yellow); font-size:11px; line-height:1.6; }
+    .notice-box ul { padding-left:18px; }
+    .cw { position:relative; z-index:5; padding:0 40px 40px; max-width:1600px; margin:0 auto; }
+    .cg { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+    @media(max-width:1100px){ .cg{ grid-template-columns:1fr; } }
+    .cc { background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+          padding:22px; box-shadow:var(--shadow); transition:all .35s cubic-bezier(.4,0,.2,1);
+          position:relative; overflow:hidden; animation:fadeUp .6s ease both; }
+    .cc::before { content:''; position:absolute; top:0; left:0; right:0; height:2px;
+                  border-radius:var(--radius) var(--radius) 0 0; opacity:0; transition:opacity .3s; }
+    .cc:hover { background:var(--card-h); border-color:var(--border-h); transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,.5); }
+    .cc:hover::before { opacity:1; }
+    .cb::before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+    .co::before{background:linear-gradient(90deg,var(--orange),var(--yellow))}
+    .cr::before{background:linear-gradient(90deg,var(--red),var(--orange))}
+    .cg2::before{background:linear-gradient(90deg,var(--green),var(--blue))}
+    .cc:nth-child(1){animation-delay:.1s} .cc:nth-child(2){animation-delay:.2s}
+    .cc:nth-child(3){animation-delay:.3s} .cc:nth-child(4){animation-delay:.4s}
+    .ch { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:18px; gap:10px; }
+    .cn { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+    .ct { font-size:.95rem; font-weight:600; color:var(--txt); }
+    .cs { font-size:10px; color:var(--txt2); margin-top:2px; }
+    .cu { font-size:10px; background:rgba(255,255,255,.06); border:1px solid var(--border);
+          border-radius:6px; padding:3px 9px; color:var(--txt2); white-space:nowrap; }
+    .cb2 { position:relative; height:300px; }
+    footer { position:relative; z-index:5; padding:20px 40px; border-top:1px solid var(--border);
+             text-align:center; color:var(--muted); font-size:11px; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+<header>
+  <nav class="back-nav" aria-label="페이지 이동">
+    <a class="back-link" href="../index.html#analysis">← 분석자료로 돌아가기</a>
+  </nav>
+  <div class="hi">
+    <div>
+      <div class="badge">📊 FINANCIAL ANALYSIS</div>
+      <h1 id="mainTitle">재무제표 분석</h1>
+      <p class="meta">분기별 수익성 · 재무건전성 · 현금흐름 통합 대시보드</p>
+    </div>
+    <div class="rbadge" id="rangeBadge">로딩 중...</div>
+  </div>
+</header>
+<section class="notice" id="warningBox" hidden>
+  <div class="notice-box"><strong>데이터 확인 사항</strong><ul id="warningList"></ul></div>
+</section>
+<section class="kw"><div class="kg" id="kpiGrid"></div></section>
+<section class="cw">
+  <div class="cg">
+    <div class="cc cb">
+      <div class="ch">
+        <div><div class="cn">CHART 01</div>
+          <div class="ct">매출 및 이익 추이</div>
+          <div class="cs">좌축: 매출액 · 우축: 영업이익/당기순이익</div></div>
+        <span class="cu">단위: 억원</span>
+      </div>
+      <div class="cb2"><canvas id="c1"></canvas></div>
+    </div>
+    <div class="cc co">
+      <div class="ch">
+        <div><div class="cn">CHART 02</div>
+          <div class="ct">수익성 비율 추이</div>
+          <div class="cs">좌축: 매출원가율 · 우축: 판관비율/영업이익률</div></div>
+        <span class="cu">단위: %</span>
+      </div>
+      <div class="cb2"><canvas id="c2"></canvas></div>
+    </div>
+    <div class="cc cr">
+      <div class="ch">
+        <div><div class="cn">CHART 03</div>
+          <div class="ct">부채비율 &amp; 유동비율</div>
+          <div class="cs">재무 건전성 및 단기 유동성 흐름</div></div>
+        <span class="cu">단위: %</span>
+      </div>
+      <div class="cb2"><canvas id="c3"></canvas></div>
+    </div>
+    <div class="cc cg2">
+      <div class="ch">
+        <div><div class="cn">CHART 04</div>
+          <div class="ct">현금흐름 추이</div>
+          <div class="cs">영업·투자·재무 현금 창출 및 활용</div></div>
+        <span class="cu">단위: 억원</span>
+      </div>
+      <div class="cb2"><canvas id="c4"></canvas></div>
+    </div>
+  </div>
+</section>
+<footer><p>분기별 재무제표 데이터 기반 · 투자 참고용 자료 · 실제 투자 결정 시 공식 공시자료를 확인하세요</p></footer>
+<script>
+const D = {
+  "quarters_income": [
+    "2016.03 16Q1 개별",
+    "2016.06 16Q2 개별",
+    "2016.09 16Q3 연결",
+    "2016.12 16Q4 연결",
+    "2017.03 17Q1 연결",
+    "2017.06 17Q2 연결",
+    "2017.09 17Q3 연결",
+    "2017.12 17Q4 연결",
+    "2018.03 18Q1 연결",
+    "2018.06 18Q2 연결",
+    "2018.09 18Q3 연결",
+    "2018.12 18Q4 연결",
+    "2019.03 19Q1 연결",
+    "2019.06 19Q2 연결",
+    "2019.09 19Q3 연결",
+    "2019.12 19Q4 연결",
+    "2020.03 20Q1 연결",
+    "2020.06 20Q2 연결",
+    "2020.09 20Q3 연결",
+    "2020.12 20Q4 연결",
+    "2021.03 21Q1 연결",
+    "2021.06 21Q2 연결",
+    "2021.09 21Q3 연결",
+    "2021.12 21Q4 연결",
+    "2022.03 22Q1 연결",
+    "2022.06 22Q2 연결",
+    "2022.09 22Q3 연결",
+    "2022.12 22Q4 연결",
+    "2023.03 23Q1 연결",
+    "2023.06 23Q2 연결",
+    "2023.09 23Q3 연결",
+    "2023.12 23Q4 연결",
+    "2024.03 24Q1 연결",
+    "2024.06 24Q2 연결",
+    "2024.09 24Q3 연결",
+    "2024.12 24Q4 연결",
+    "2025.03 25Q1 연결",
+    "2025.06 25Q2 연결",
+    "2025.09 25Q3 연결",
+    "2025.12 25Q4 연결",
+    "2026.03 26Q1 연결",
+    "2026.06 26Q2 연결"
+  ],
+  "quarters_balance": [
+    "2016.03 16Q1 개별",
+    "2016.06 16Q2 개별",
+    "2016.09 16Q3 연결",
+    "2016.12 16Q4 연결",
+    "2017.03 17Q1 연결",
+    "2017.06 17Q2 연결",
+    "2017.09 17Q3 연결",
+    "2017.12 17Q4 연결",
+    "2018.03 18Q1 연결",
+    "2018.06 18Q2 연결",
+    "2018.09 18Q3 연결",
+    "2018.12 18Q4 연결",
+    "2019.03 19Q1 연결",
+    "2019.06 19Q2 연결",
+    "2019.09 19Q3 연결",
+    "2019.12 19Q4 연결",
+    "2020.03 20Q1 연결",
+    "2020.06 20Q2 연결",
+    "2020.09 20Q3 연결",
+    "2020.12 20Q4 연결",
+    "2021.03 21Q1 연결",
+    "2021.06 21Q2 연결",
+    "2021.09 21Q3 연결",
+    "2021.12 21Q4 연결",
+    "2022.03 22Q1 연결",
+    "2022.06 22Q2 연결",
+    "2022.09 22Q3 연결",
+    "2022.12 22Q4 연결",
+    "2023.03 23Q1 연결",
+    "2023.06 23Q2 연결",
+    "2023.09 23Q3 연결",
+    "2023.12 23Q4 연결",
+    "2024.03 24Q1 연결",
+    "2024.06 24Q2 연결",
+    "2024.09 24Q3 연결",
+    "2024.12 24Q4 연결",
+    "2025.03 25Q1 연결",
+    "2025.06 25Q2 연결",
+    "2025.09 25Q3 연결",
+    "2025.12 25Q4 연결",
+    "2026.03 26Q1 연결",
+    "2026.06 26Q2 연결"
+  ],
+  "quarters_cf": [
+    "2016.03 16Q1 개별",
+    "2016.06 16Q2 개별",
+    "2016.09 16Q3 연결",
+    "2016.12 16Q4 연결",
+    "2017.03 17Q1 연결",
+    "2017.06 17Q2 연결",
+    "2017.09 17Q3 연결",
+    "2017.12 17Q4 연결",
+    "2018.03 18Q1 연결",
+    "2018.06 18Q2 연결",
+    "2018.09 18Q3 연결",
+    "2018.12 18Q4 연결",
+    "2019.03 19Q1 연결",
+    "2019.06 19Q2 연결",
+    "2019.09 19Q3 연결",
+    "2019.12 19Q4 연결",
+    "2020.03 20Q1 연결",
+    "2020.06 20Q2 연결",
+    "2020.09 20Q3 연결",
+    "2020.12 20Q4 연결",
+    "2021.03 21Q1 연결",
+    "2021.06 21Q2 연결",
+    "2021.09 21Q3 연결",
+    "2021.12 21Q4 연결",
+    "2022.03 22Q1 연결",
+    "2022.06 22Q2 연결",
+    "2022.09 22Q3 연결",
+    "2022.12 22Q4 연결",
+    "2023.03 23Q1 연결",
+    "2023.06 23Q2 연결",
+    "2023.09 23Q3 연결",
+    "2023.12 23Q4 연결",
+    "2024.03 24Q1 연결",
+    "2024.06 24Q2 연결",
+    "2024.09 24Q3 연결",
+    "2024.12 24Q4 연결",
+    "2025.03 25Q1 연결",
+    "2025.06 25Q2 연결",
+    "2025.09 25Q3 연결",
+    "2025.12 25Q4 연결",
+    "2026.03 26Q1 연결",
+    "2026.06 26Q2 연결"
+  ],
+  "revenue": [
+    118.18689784,
+    120.39559531,
+    110.36640448,
+    110.58224994,
+    124.45331004,
+    127.00352464,
+    144.11121022,
+    149.12953401,
+    144.94405943,
+    169.58872448,
+    154.98936538,
+    173.28467127,
+    204.55978455,
+    200.41012168,
+    195.90990985,
+    237.83660436,
+    206.75225706,
+    276.96829179,
+    291.26534689,
+    312.47332304,
+    345.37958087,
+    387.94388188,
+    387.02580435,
+    420.47971184,
+    452.68535452,
+    497.00307875,
+    461.74667563,
+    536.15133044,
+    554.42360591,
+    667.98134698,
+    688.05501576,
+    699.64913699,
+    747.16536142,
+    831.0658162,
+    892.08791343,
+    1030.83159536,
+    1169.09970307,
+    1406.07447466,
+    1354.26410999,
+    1433.4529004,
+    1461.00260508,
+    1787.04799285
+  ],
+  "op_income": [
+    36.35717525,
+    41.39468171,
+    47.08786497,
+    16.21151098,
+    52.26059787,
+    38.2582592,
+    58.21126331,
+    -0.29420434,
+    45.46698382,
+    17.97738842,
+    13.83808418,
+    9.76195253,
+    49.07524581,
+    41.45821799,
+    36.25949403,
+    63.83064795,
+    45.50512159,
+    80.48454748,
+    94.7964256,
+    113.47262478,
+    122.9198168,
+    139.1240547,
+    136.51451668,
+    126.33057219,
+    152.34682035,
+    173.91849262,
+    165.18642317,
+    167.70978217,
+    207.39374899,
+    236.47410571,
+    274.9485482,
+    203.76146338,
+    266.68362059,
+    307.60698843,
+    349.23262674,
+    336.98433545,
+    447.33584603,
+    558.77690378,
+    618.7055818,
+    519.1392541,
+    572.92342573,
+    664.69662181
+  ],
+  "net_income": [
+    41.41107686,
+    46.60784275,
+    42.51725112,
+    7.73508049,
+    45.42387814,
+    36.60014769,
+    52.29653863,
+    -9.15367088,
+    42.07934402,
+    11.49551823,
+    2.68317224,
+    56.39558188,
+    43.48415433,
+    30.39913086,
+    32.01440543,
+    42.60888441,
+    41.69119863,
+    95.47207749,
+    72.35344986,
+    115.00549868,
+    123.39650393,
+    117.58040532,
+    132.8686983,
+    94.39076282,
+    98.51091835,
+    97.79737093,
+    166.09903361,
+    71.93371606,
+    183.27114731,
+    151.83477277,
+    281.95848451,
+    155.58211996,
+    183.05286876,
+    287.18192888,
+    255.12480181,
+    164.07075675,
+    360.26848814,
+    420.44835186,
+    508.52909683,
+    393.30841191,
+    487.48490607,
+    562.2870136
+  ],
+  "cogs_rate": [
+    30.38,
+    30.46,
+    35.4,
+    35.74,
+    32.83,
+    32.96,
+    33.4,
+    35.67,
+    33.79,
+    40.29,
+    41.04,
+    46.02,
+    36.45,
+    45.72,
+    43.63,
+    36.16,
+    35.27,
+    35.49,
+    31.93,
+    30.17,
+    28.9,
+    29.58,
+    30.0,
+    30.16,
+    29.47,
+    27.77,
+    26.8,
+    25.6,
+    27.08,
+    25.38,
+    26.49,
+    29.39,
+    30.69,
+    28.73,
+    27.63,
+    26.61,
+    26.91,
+    23.76,
+    19.41,
+    23.66,
+    22.71,
+    23.03
+  ],
+  "sga_rate": [
+    38.86,
+    35.16,
+    21.94,
+    49.6,
+    25.17,
+    36.92,
+    26.2,
+    64.53,
+    34.85,
+    49.11,
+    50.03,
+    48.35,
+    39.56,
+    33.59,
+    37.87,
+    37.0,
+    42.72,
+    35.45,
+    35.52,
+    33.52,
+    35.51,
+    34.56,
+    34.73,
+    39.79,
+    36.87,
+    37.23,
+    37.43,
+    43.12,
+    35.52,
+    39.22,
+    33.55,
+    41.49,
+    33.62,
+    34.26,
+    33.23,
+    40.7,
+    34.82,
+    36.5,
+    34.91,
+    40.12,
+    38.08,
+    39.77
+  ],
+  "op_margin": [
+    30.76,
+    34.38,
+    42.67,
+    14.66,
+    41.99,
+    30.12,
+    40.39,
+    -0.2,
+    31.37,
+    10.6,
+    8.93,
+    5.63,
+    23.99,
+    20.69,
+    18.51,
+    26.84,
+    22.01,
+    29.06,
+    32.55,
+    36.31,
+    35.59,
+    35.86,
+    35.27,
+    30.04,
+    33.65,
+    34.99,
+    35.77,
+    31.28,
+    37.41,
+    35.4,
+    39.96,
+    29.12,
+    35.69,
+    37.01,
+    39.15,
+    32.69,
+    38.26,
+    39.74,
+    45.69,
+    36.22,
+    39.21,
+    37.2
+  ],
+  "debt_ratio": [
+    6.18,
+    4.67,
+    4.59,
+    3.98,
+    6.47,
+    3.86,
+    5.78,
+    3.78,
+    22.71,
+    21.55,
+    20.88,
+    17.96,
+    18.35,
+    17.07,
+    17.18,
+    18.17,
+    17.97,
+    17.88,
+    24.22,
+    20.96,
+    17.79,
+    15.56,
+    17.21,
+    30.24,
+    31.88,
+    29.16,
+    28.73,
+    28.63,
+    27.88,
+    21.25,
+    20.27,
+    15.81,
+    22.91,
+    18.33,
+    18.19,
+    50.27,
+    49.73,
+    44.83,
+    43.49,
+    44.21,
+    48.18,
+    40.35
+  ],
+  "current_ratio": [
+    1366.91,
+    1772.09,
+    1773.23,
+    2037.44,
+    1320.13,
+    2084.83,
+    1376.81,
+    1636.88,
+    821.22,
+    834.74,
+    859.53,
+    683.27,
+    621.92,
+    634.93,
+    593.64,
+    561.98,
+    516.45,
+    527.38,
+    311.33,
+    355.39,
+    342.58,
+    382.03,
+    337.72,
+    430.77,
+    389.87,
+    448.57,
+    460.33,
+    455.91,
+    445.13,
+    544.92,
+    568.87,
+    389.18,
+    314.71,
+    364.51,
+    401.11,
+    669.59,
+    640.02,
+    769.43,
+    751.46,
+    687.53,
+    569.12,
+    772.48
+  ],
+  "op_cf": [
+    25.0912106,
+    27.10964182,
+    17.94720746,
+    11.46202615,
+    20.28456111,
+    10.75704665,
+    40.61939197,
+    13.89185231,
+    -9.64908882,
+    25.90684741,
+    39.60510158,
+    -3.82888599,
+    26.49628999,
+    69.48583501,
+    37.32916412,
+    59.41146157,
+    23.23571044,
+    115.22995574,
+    72.15369146,
+    113.29733126,
+    138.67642055,
+    135.31107506,
+    196.57381822,
+    182.41009171,
+    114.38038032,
+    162.36584178,
+    198.27887013,
+    119.01298743,
+    137.68002566,
+    117.82440335,
+    157.8762596,
+    236.07180558,
+    346.72171179,
+    302.11878705,
+    337.78173337,
+    394.59655932,
+    354.6394605,
+    390.64789874,
+    471.05962781,
+    615.27580399,
+    312.0597189,
+    330.52695265
+  ],
+  "inv_cf": [
+    -43.39823903,
+    -1.3324049,
+    73.69030267,
+    -39.13573139,
+    0.60197689,
+    46.64666178,
+    52.01852417,
+    -128.94159361,
+    -117.28378505,
+    117.96678197,
+    -228.81144628,
+    45.47991574,
+    -36.99796416,
+    61.18077429,
+    -70.64270767,
+    -69.90586449,
+    -42.25723413,
+    165.19984247,
+    -418.61868163,
+    -66.4141176,
+    20.10483863,
+    -274.26656466,
+    -99.45147559,
+    -583.93597875,
+    -110.18388745,
+    -157.22722632,
+    -147.95520088,
+    296.28988332,
+    -56.62189995,
+    -156.04005645,
+    -32.99807829,
+    -201.01649792,
+    92.62870289,
+    -457.53044374,
+    28.54007252,
+    -1919.02235911,
+    -527.27029784,
+    -344.38151272,
+    -164.41457074,
+    -523.11313097,
+    -16.54436664,
+    261.86178092
+  ],
+  "fin_cf": [
+    0.0,
+    -18.932434,
+    0.0,
+    -26.839452,
+    -23.0345245,
+    -33.35749434,
+    -0.03853444,
+    -0.55289642,
+    239.76792,
+    -67.544415,
+    0.66202895,
+    -3.7301729,
+    -18.174568,
+    -42.5158725,
+    -16.5992867,
+    -13.75482222,
+    -2.55184398,
+    -32.63637172,
+    147.53793646,
+    -1.46708774,
+    -5.53881065,
+    -53.95902497,
+    -4.53213939,
+    493.684032,
+    -15.64682156,
+    -65.6705276,
+    -107.1387317,
+    95.4424745,
+    -8.67569134,
+    -83.94099705,
+    -5.59516346,
+    -161.47444035,
+    101.74085549,
+    -111.71487336,
+    -5.93954849,
+    1842.34742374,
+    -13.91486603,
+    -125.27421303,
+    -7.48147919,
+    -6.05507571,
+    -42.81297869,
+    -437.42612348
+  ],
+  "fcf": [
+    23.3313875,
+    2.18188142,
+    13.95567944,
+    22.56404344,
+    20.26426111,
+    7.9505986,
+    -19.85696757,
+    8.45736017,
+    -86.71746009,
+    -40.88676869,
+    -62.56061319,
+    -52.16008726,
+    -13.26299438,
+    50.04227597,
+    17.87863723,
+    40.22953394,
+    7.88078886,
+    73.67855831,
+    -95.05919432,
+    -16.41305444,
+    98.21756455,
+    84.01704075,
+    125.54281009,
+    107.30904862,
+    63.2655537,
+    120.61295565,
+    139.6732251,
+    92.90868719,
+    106.74132349,
+    94.17929686,
+    119.23329395,
+    197.33121761,
+    295.15070877,
+    156.39122939,
+    280.80342779,
+    261.62197508,
+    215.58148966,
+    318.86012432,
+    401.95572636,
+    537.4048215,
+    223.33773207,
+    199.65809896
+  ],
+  "warnings": [
+    "손익계산서 데이터에 연결/개별 기준이 함께 포함되어 있어 전환 전후 추세 비교에 주의가 필요합니다.",
+    "재무상태표 데이터에 연결/개별 기준이 함께 포함되어 있어 전환 전후 추세 비교에 주의가 필요합니다.",
+    "현금흐름표 데이터에 연결/개별 기준이 함께 포함되어 있어 전환 전후 추세 비교에 주의가 필요합니다."
+  ]
+};
+const COMPANY = "파마리서치";
+
+// 제목 업데이트
+document.getElementById('mainTitle').textContent = COMPANY + ' 재무제표 분석';
+
+const chartAvailable = typeof Chart !== 'undefined';
+if (!Array.isArray(D.warnings)) D.warnings = [];
+if (!chartAvailable) {
+  D.warnings.unshift('차트 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인하세요. KPI 값은 계속 확인할 수 있습니다.');
+}
+
+if (chartAvailable) {
+Chart.defaults.color = '#8fa8cc';
+Chart.defaults.font.family = "'Noto Sans KR','Inter',sans-serif";
+Chart.defaults.font.size = 11;
+
+function xAxis() {
+  return {
+    grid: { color: 'rgba(255,255,255,.04)', drawTicks: false },
+    border: { color: 'rgba(255,255,255,.08)' },
+    ticks: {
+      color: '#4a6080', maxRotation: 45, font: { size: 9 },
+      callback: function(val) {
+        const l = this.getLabelForValue(val);
+        return l && l.includes('Q4') ? l : '';
+      }
+    }
+  };
+}
+
+function yAx({ pos='left', title='', color='#8fa8cc', fmt='amount', grid=true } = {}) {
+  return {
+    position: pos,
+    grid: grid ? { color:'rgba(255,255,255,.04)', drawTicks:false } : { drawOnChartArea:false },
+    border: { color:'transparent' },
+    title: title ? { display:true, text:title, color, font:{ size:10 } } : { display:false },
+    ticks: {
+      color,
+      callback: v => fmt === 'pct' ? v.toFixed(1)+'%'
+                   : Math.abs(v) >= 1000 ? (v/1000).toFixed(0)+'K' : v.toLocaleString('ko-KR')
+    }
+  };
+}
+
+function tip(fmt='amount') {
+  return {
+    backgroundColor:'rgba(10,15,30,.95)', borderColor:'rgba(68,136,255,.3)', borderWidth:1,
+    padding:12, titleColor:'#e8f0fe', bodyColor:'#8fa8cc',
+    titleFont:{ size:12, weight:'600' }, bodyFont:{ size:11 },
+    callbacks: {
+      label: ctx => {
+        const v = ctx.parsed.y;
+        if (v == null) return null;
+        return fmt === 'pct' ? `${ctx.dataset.label}: ${v.toFixed(2)}%`
+                             : `${ctx.dataset.label}: ${v.toLocaleString('ko-KR')} 억원`;
+      }
+    }
+  };
+}
+
+const leg = { position:'bottom', labels:{ color:'#8fa8cc', padding:14, boxWidth:12, boxHeight:12,
+              borderRadius:3, useBorderRadius:true, font:{ size:11 } } };
+
+// Chart 1 — 이중 Y축 (좌: 매출액, 우: 이익)
+new Chart(document.getElementById('c1'), {
+  data: {
+    labels: D.quarters_income,
+    datasets: [
+      { type:'bar',  label:'매출액',    data:D.revenue,    yAxisID:'yL',
+        backgroundColor:'rgba(68,136,255,.65)', borderColor:'#4488ff', borderWidth:1, borderRadius:3 },
+      { type:'line', label:'영업이익',  data:D.op_income,  yAxisID:'yR',
+        borderColor:'#ff7833', backgroundColor:'transparent',
+        borderWidth:2.5, pointRadius:2, pointHoverRadius:5, tension:.4, spanGaps:true },
+      { type:'line', label:'당기순이익',data:D.net_income, yAxisID:'yR',
+        borderColor:'#44cc88', backgroundColor:'transparent',
+        borderWidth:2, borderDash:[5,3], pointRadius:2, pointHoverRadius:5, tension:.4, spanGaps:true },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
+    plugins:{ legend:leg, tooltip:tip('amount') },
+    scales:{ x:xAxis(), yL:yAx({ title:'매출액 (억원)', color:'#4488ff' }),
+             yR:yAx({ pos:'right', title:'이익 (억원)', color:'#ff7833', grid:false }) }
+  }
+});
+
+// Chart 2 — 이중 Y축 (좌: 매출원가율, 우: 판관비율/영업이익률)
+new Chart(document.getElementById('c2'), {
+  data: {
+    labels: D.quarters_income,
+    datasets: [
+      { type:'line', label:'매출원가율', data:D.cogs_rate, yAxisID:'yL',
+        borderColor:'#ff4466', backgroundColor:'rgba(255,68,102,.05)',
+        borderWidth:2.5, pointRadius:1.5, pointHoverRadius:5, tension:.4, spanGaps:true },
+      { type:'line', label:'판관비율',   data:D.sga_rate,  yAxisID:'yR',
+        borderColor:'#ffcc44', borderWidth:2, borderDash:[6,3],
+        pointRadius:1.5, pointHoverRadius:5, tension:.4, spanGaps:true },
+      { type:'line', label:'영업이익률', data:D.op_margin, yAxisID:'yR',
+        borderColor:'#44cc88', backgroundColor:'rgba(68,204,136,.07)',
+        borderWidth:2.5, pointRadius:1.5, pointHoverRadius:5, tension:.4, fill:true, spanGaps:true },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
+    plugins:{ legend:leg, tooltip:tip('pct') },
+    scales:{ x:xAxis(),
+             yL:yAx({ title:'매출원가율 (%)', color:'#ff4466', fmt:'pct' }),
+             yR:yAx({ pos:'right', title:'판관비율/영업이익률 (%)', color:'#44cc88', fmt:'pct', grid:false }) }
+  }
+});
+
+// Chart 3 — 이중 Y축 (좌: 부채비율, 우: 유동비율)
+new Chart(document.getElementById('c3'), {
+  data: {
+    labels: D.quarters_balance,
+    datasets: [
+      { type:'line', label:'부채비율', data:D.debt_ratio,    yAxisID:'yL',
+        borderColor:'#ff4466', backgroundColor:'rgba(255,68,102,.06)',
+        borderWidth:2.5, pointRadius:2, pointHoverRadius:5, tension:.4, spanGaps:true },
+      { type:'line', label:'유동비율', data:D.current_ratio, yAxisID:'yR',
+        borderColor:'#4488ff', backgroundColor:'rgba(68,136,255,.07)',
+        borderWidth:2.5, pointRadius:2, pointHoverRadius:5, tension:.4, fill:true, spanGaps:true },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
+    plugins:{ legend:leg,
+      tooltip:{ ...tip('pct'), callbacks:{ label: ctx => ctx.parsed.y != null ? `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%` : null } }
+    },
+    scales:{ x:xAxis(),
+             yL:yAx({ title:'부채비율 (%)', color:'#ff4466', fmt:'pct' }),
+             yR:yAx({ pos:'right', title:'유동비율 (%)', color:'#4488ff', fmt:'pct', grid:false }) }
+  }
+});
+
+// Chart 4 — 현금흐름
+new Chart(document.getElementById('c4'), {
+  data: {
+    labels: D.quarters_cf,
+    datasets: [
+      { type:'bar',  label:'영업현금흐름',     data:D.op_cf,
+        backgroundColor:'rgba(68,136,255,.75)', borderColor:'#4488ff', borderWidth:1, borderRadius:3 },
+      { type:'bar',  label:'투자현금흐름',     data:D.inv_cf,
+        backgroundColor:'rgba(255,68,102,.75)', borderColor:'#ff4466', borderWidth:1, borderRadius:3 },
+      { type:'bar',  label:'재무현금흐름',     data:D.fin_cf,
+        backgroundColor:'rgba(170,102,255,.75)', borderColor:'#aa66ff', borderWidth:1, borderRadius:3 },
+      { type:'line', label:'잉여현금흐름(FCF)', data:D.fcf,
+        borderColor:'#44cc88', backgroundColor:'transparent',
+        borderWidth:2.5, pointRadius:3, pointHoverRadius:6, tension:.4, spanGaps:true },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
+    plugins:{ legend:leg, tooltip:tip('amount') },
+    scales:{ x:xAxis(), y:yAx({ title:'금액 (억원)', color:'#8fa8cc' }) }
+  }
+});
+}
+
+// 데이터 품질 및 범위 경고
+(function buildWarnings() {
+  if (!D.warnings.length) return;
+  const box = document.getElementById('warningBox');
+  const list = document.getElementById('warningList');
+  D.warnings.forEach(message => {
+    const item = document.createElement('li');
+    item.textContent = message;
+    list.appendChild(item);
+  });
+  box.hidden = false;
+})();
+
+// KPI Cards
+(function buildKPI() {
+  const lastPoint = (values, labels) => {
+    for (let i = Math.min(values.length, labels.length) - 1; i >= 0; i--) {
+      if (values[i] != null) return { value:values[i], period:labels[i] ?? null };
+    }
+    return null;
+  };
+  const amount = point => point ? point.value.toLocaleString('ko-KR') : 'N/A';
+  const percent = (point, digits) => point ? `${point.value.toFixed(digits)}%` : 'N/A';
+  const period = (point, extra='') => point?.period
+    ? `${point.period}${extra ? ' · ' + extra : ''}`
+    : '기준 기간 없음';
+  const tone = (point, chooser) => point ? chooser(point.value) : 'neu';
+
+  const revenue = lastPoint(D.revenue, D.quarters_income);
+  const margin = lastPoint(D.op_margin, D.quarters_income);
+  const debt = lastPoint(D.debt_ratio, D.quarters_balance);
+  const current = lastPoint(D.current_ratio, D.quarters_balance);
+  const operatingCash = lastPoint(D.op_cf, D.quarters_cf);
+  const kpis = [
+    { l:'최근 분기 매출액', v:amount(revenue), s:period(revenue, '억원'), c:'neu' },
+    { l:'영업이익률', v:percent(margin, 2), s:period(margin),
+      c:tone(margin, v => v >= 5 ? 'pos' : v >= 0 ? 'warn' : 'neg') },
+    { l:'부채비율', v:percent(debt, 1), s:period(debt),
+      c:tone(debt, v => v <= 100 ? 'pos' : v <= 200 ? 'warn' : 'neg') },
+    { l:'유동비율', v:percent(current, 1), s:period(current, '권장 150% 이상'),
+      c:tone(current, v => v >= 150 ? 'pos' : v >= 100 ? 'warn' : 'neg') },
+    { l:'영업현금흐름', v:amount(operatingCash), s:period(operatingCash, '억원 · 해당 분기'),
+      c:tone(operatingCash, v => v >= 0 ? 'pos' : 'neg') },
+  ];
+  const g = document.getElementById('kpiGrid');
+  kpis.forEach((k,i) => {
+    const card = document.createElement('div');
+    card.className = 'kc';
+    card.style.animationDelay = `${i * 0.05}s`;
+    for (const [className, text] of [['kl', k.l], [`kv ${k.c}`, k.v], ['ks', k.s]]) {
+      const node = document.createElement('div');
+      node.className = className;
+      node.textContent = text;
+      card.appendChild(node);
+    }
+    g.appendChild(card);
+  });
+})();
+
+// 데이터 범위 배지
+(function updateRange() {
+  const qs = D.quarters_income.filter(q => q);
+  document.getElementById('rangeBadge').textContent =
+    `${COMPANY} · ${qs[0] ?? ''} ~ ${qs[qs.length-1] ?? ''}`;
+})();
+</script>
+</body>
+</html>

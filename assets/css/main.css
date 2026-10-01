@@ -169,16 +169,12 @@ main{padding-top:var(--nav-h)}
 .channel-link:hover{text-decoration:underline}
 
 /* 인스타그램 계정 */
-.instagram-section{margin-top:72px}
-.instagram-heading{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:24px}
-.instagram-heading h3{font-size:clamp(23px,2.5vw,30px);line-height:1.4;letter-spacing:-.7px;margin-top:8px}
-.instagram-heading p{font-size:15px;color:var(--color-text-sec)}
-.instagram-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.instagram-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
 .instagram-card{--ig-tint:var(--color-accent-light);--ig-ink:var(--color-accent);display:flex;flex-direction:column;min-width:0;min-height:248px;padding:24px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius);transition:border-color var(--t),transform var(--t),box-shadow var(--t)}
 .instagram-card:hover,.js-ready .instagram-card.is-visible:hover{border-color:var(--color-accent);transform:translateY(-3px);box-shadow:0 10px 24px rgba(23,43,58,.08)}
 .instagram-icon{display:flex;align-items:center;justify-content:center;width:48px;height:48px;margin-bottom:18px;border-radius:12px;background:var(--ig-tint);color:var(--ig-ink)}
 .instagram-icon svg{width:26px;height:26px}
-.instagram-card h4{font-size:20px;line-height:1.4;letter-spacing:-.4px}
+.instagram-card h3{font-size:20px;line-height:1.4;letter-spacing:-.4px}
 .instagram-handle{font-size:14px;font-weight:700;color:var(--color-accent);overflow-wrap:anywhere;margin-top:3px}
 .instagram-desc{font-size:15px;line-height:1.6;color:var(--color-text-sec);margin:10px 0 18px;word-break:keep-all}
 .instagram-link{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;margin-top:auto;padding-top:10px;border-top:1px solid var(--color-border);font-size:14px;font-weight:700;text-decoration:none}
@@ -227,8 +223,6 @@ main{padding-top:var(--nav-h)}
   .channel-card{column-gap:16px}
   .channel-link{grid-column:2;grid-row:4;justify-self:start;margin-top:8px}
   .channel-icon{align-self:start;margin-top:4px}
-  .instagram-heading{display:block}
-  .instagram-heading p{margin-top:8px}
 }
 @media(max-width:600px){
   .nav-logo{gap:12px}
@@ -243,7 +237,6 @@ main{padding-top:var(--nav-h)}
   .filter-bar{gap:6px}
   .filter-btn{font-size:13px;padding:8px 12px}
   .channel-name{font-size:18px}
-  .instagram-section{margin-top:56px}
   .instagram-grid{grid-template-columns:1fr}
   .instagram-card{min-height:0}
   .footer-inner{flex-direction:column;align-items:flex-start}

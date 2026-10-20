@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400">
+  <circle cx="238" cy="196" r="166" fill="#C2DDD9"/>
+  <g transform="rotate(-18 126 211)">
+    <path d="M113 113h26v90c31-7 52 12 48 34-3 14-12 19-8 31 12 33-7 63-53 63s-65-30-53-63c4-12-5-17-8-31-4-22 17-41 48-34z" fill="#176B63"/>
+    <rect x="109" y="71" width="34" height="59" rx="10" fill="#0F4F49"/>
+    <path d="M106 85h40m-40 14h40m-40 14h40" stroke="#9DD4CC" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="126" cy="250" r="22" fill="#E5F5F3"/>
+    <circle cx="126" cy="250" r="16" fill="#0F4F49"/>
+    <rect x="104" y="287" width="44" height="9" rx="3" fill="#0F4F49"/>
+    <path d="M119 122v170m5-170v170m5-170v170m5-170v170" stroke="#B8E0DA" stroke-width="1"/>
+  </g>
+  <rect x="206" y="68" width="226" height="282" rx="14" fill="#FFF" stroke="#DFE5E2" stroke-width="2"/>
+  <text x="232" y="108" font-family="sans-serif" font-size="23" font-weight="700" fill="#172B3A">C</text>
+  <text x="261" y="108" font-family="sans-serif" font-size="12" fill="#52616B">MAJOR</text>
+  <g fill="#52616B" font-family="sans-serif" font-size="13" text-anchor="middle">
+    <text x="242" y="142">×</text><text x="332" y="142">○</text><text x="392" y="142">○</text>
+  </g>
+  <path d="M242 155h150" stroke="#172B3A" stroke-width="5"/>
+  <path d="M242 195h150m-150 40h150m-150 40h150m-150 40h150" stroke="#C2DDD9" stroke-width="2"/>
+  <path d="M242 155v160m30-160v160m30-160v160m30-160v160m30-160v160m30-160v160" stroke="#52616B" stroke-width="1.5"/>
+  <g fill="#176B63">
+    <circle cx="362" cy="175" r="12"/><circle cx="302" cy="215" r="12"/><circle cx="272" cy="255" r="12"/>
+  </g>
+  <g fill="#FFF" font-family="sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+    <text x="362" y="179">1</text><text x="302" y="219">2</text><text x="272" y="259">3</text>
+  </g>
+</svg>

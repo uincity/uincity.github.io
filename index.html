@@ -221,6 +221,52 @@
     </div>
   </section>
 
+  <!-- 일상 속 작은 프로젝트 -->
+  <section class="small-projects section" id="small-projects" aria-labelledby="small-projects-h2">
+    <div class="container">
+      <span class="section-tag">일상 속 작은 프로젝트</span>
+      <h2 class="section-title" id="small-projects-h2">일상의 작은 필요를, 직접 만들어 해결합니다.</h2>
+      <p class="section-desc">
+        데이터분석뿐 아니라 생활 속에서 필요하다고 느끼는 도구들도 직접 만들어 봅니다.
+        작은 아이디어를 실제로 사용할 수 있는 서비스로 구현하고 공유합니다.
+      </p>
+
+      <!-- 프로젝트 정보는 assets/js/projects.js의 projects 배열에서 관리합니다. -->
+      <div class="small-projects-grid" id="small-projects-grid"></div>
+
+      <template id="small-project-template">
+        <article class="small-project-card">
+          <div class="small-project-visual">
+            <img class="small-project-image" width="480" height="400" loading="lazy" decoding="async" src="assets/img/project-guitar.svg" alt="">
+          </div>
+          <div class="small-project-body">
+            <p class="small-project-category"></p>
+            <h3 class="small-project-title"></h3>
+            <p class="small-project-subtitle"></p>
+            <div class="small-project-description"></div>
+            <ul class="small-project-features" aria-label="핵심 기능"></ul>
+            <a class="btn btn-primary small-project-cta" target="_blank" rel="noopener noreferrer"></a>
+          </div>
+        </article>
+      </template>
+
+      <noscript>
+        <article class="small-project-card">
+          <div class="small-project-visual">
+            <img class="small-project-image" src="assets/img/project-guitar.svg" width="480" height="400" loading="lazy" alt="기타 실루엣과 C 메이저 코드의 손가락 위치를 표시한 지판 일러스트">
+          </div>
+          <div class="small-project-body">
+            <p class="small-project-category">MUSIC · WEB APP</p>
+            <h3 class="small-project-title">캐서린의 기타 코드 연습실</h3>
+            <p class="small-project-subtitle">아내를 위해 만든 작은 기타 학습 도구</p>
+            <p class="small-project-description">어쿠스틱 기타를 배우는 아내를 위해 만든 작은 웹서비스입니다. 기타 지판과 코드 운지를 시각화해 스마트폰으로도 간편하게 확인할 수 있습니다.</p>
+            <a class="btn btn-primary small-project-cta" href="https://uincity.github.io/guitar/" target="_blank" rel="noopener noreferrer" aria-label="캐서린의 기타 코드 연습실 열기 (새 탭)">기타 코드 연습실 열기 ↗</a>
+          </div>
+        </article>
+      </noscript>
+    </div>
+  </section>
+
   <!-- ③ 분석자료 -->
   <section class="analysis section" id="analysis" aria-labelledby="analysis-h2">
     <div class="container">
@@ -618,6 +664,22 @@
           </a>
         </div>
 
+        <div class="channel-card fade-in">
+          <div class="channel-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13M9 9l12-2"/><ellipse cx="6" cy="18" rx="3" ry="3"/><ellipse cx="18" cy="16" rx="3" ry="3"/></svg></div>
+          <p class="channel-type">밴드 아카이브</p>
+          <h3 class="channel-name">클래식 기타 앙상블 | 집단적독백</h3>
+          <p class="channel-desc">
+            서로 다른 개성과 음악적 색깔을 가진 사람들이 클래식 기타라는 공통의 언어로 만나 함께 음악을 만들어가는 앙상블입니다.
+            각자의 소리가 모여 하나의 하모니를 이루는 즐거움을 추구하며, 다양한 레퍼토리와 공연을 통해 음악으로 소통하고 있습니다.
+          </p>
+          <a class="channel-link"
+             href="https://uincity.github.io/dokbaek/"
+             target="_blank" rel="noopener noreferrer"
+             aria-label="집단적독백 아카이브 페이지 열기 (새 탭)">
+            아카이브 보기 ↗
+          </a>
+        </div>
+
       </div>
 
     </div>
@@ -702,6 +764,7 @@
 </footer>
 
 <!-- 스크립트 -->
+<script src="assets/js/projects.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

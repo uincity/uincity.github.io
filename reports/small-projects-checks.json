@@ -1,0 +1,110 @@
+{
+  "preserved_sections_and_navigation": true,
+  "widths": [
+    {
+      "width": 320,
+      "documentWidth": 320,
+      "overflow": [],
+      "stacked": true,
+      "ctaWidth": 238,
+      "ctaHeight": 50.5,
+      "bodyFontSize": "16px"
+    },
+    {
+      "width": 360,
+      "documentWidth": 360,
+      "overflow": [],
+      "stacked": true,
+      "ctaWidth": 278,
+      "ctaHeight": 50.5,
+      "bodyFontSize": "16px"
+    },
+    {
+      "width": 375,
+      "documentWidth": 375,
+      "overflow": [],
+      "stacked": true,
+      "ctaWidth": 293,
+      "ctaHeight": 50.5,
+      "bodyFontSize": "16px"
+    },
+    {
+      "width": 390,
+      "documentWidth": 390,
+      "overflow": [],
+      "stacked": true,
+      "ctaWidth": 308,
+      "ctaHeight": 50.5,
+      "bodyFontSize": "16px"
+    },
+    {
+      "width": 768,
+      "documentWidth": 768,
+      "overflow": [],
+      "stacked": false,
+      "ctaWidth": 215.09375,
+      "ctaHeight": 52.5,
+      "bodyFontSize": "16px"
+    },
+    {
+      "width": 1024,
+      "documentWidth": 1024,
+      "overflow": [],
+      "stacked": false,
+      "ctaWidth": 215.09375,
+      "ctaHeight": 52.5,
+      "bodyFontSize": "16px"
+    },
+    {
+      "width": 1440,
+      "documentWidth": 1440,
+      "overflow": [],
+      "stacked": false,
+      "ctaWidth": 215.09375,
+      "ctaHeight": 52.5,
+      "bodyFontSize": "16px"
+    }
+  ],
+  "screenshots": [
+    "small-projects-390.png",
+    "small-projects-1440.png"
+  ],
+  "mobile_navigation": true,
+  "all_analysis_filters": true,
+  "keyboard_and_focus": true,
+  "reduced_motion": true,
+  "text_contrast": {
+    "#52616B/#FFFFFF": 6.4,
+    "#176B63/#FFFFFF": 6.33,
+    "#FFFFFF/#176B63": 6.33,
+    "#0F4F49/#FFFFFF": 9.4,
+    "#172B3A/#FFFFFF": 14.55,
+    "#52616B/#F7F6F2": 5.92
+  },
+  "second_project_grid": true,
+  "no_javascript_fallback": true,
+  "live_cta_and_service_controls": true,
+  "javascript_errors": [],
+  "failed_local_responses": [],
+  "feature_verification": {
+    "service": "https://uincity.github.io/guitar/",
+    "source": "https://github.com/uincity/guitar",
+    "checked": [
+      "deployed JavaScript and CSS",
+      "local App.tsx, GuitarFretboard.tsx, VoicingSelector.tsx, AudioControls.tsx, globals.css",
+      "live service controls after following the CTA"
+    ]
+  },
+  "syntax_checks": [
+    "node --check assets/js/projects.js",
+    "node --check assets/js/main.js",
+    "git diff --check",
+    "SVG XML parsing"
+  ],
+  "existing_build_test_lint_commands": "None: the homepage is static HTML/CSS/JavaScript without a package manifest.",
+  "not_verified": [
+    "Lighthouse scores",
+    "Physical iOS/Android devices and Safari",
+    "GitHub Pages deployment of these local changes"
+  ]
+}
